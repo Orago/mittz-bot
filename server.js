@@ -172,7 +172,7 @@ client.on('message', message => {
 
 client.on("ready", async () => {
 
-  client.user.setActivity(`Just say Mittz !`, {
+  client.user.setActivity(`Just say Oof !`, {
     type: "Playing"
   });
   
