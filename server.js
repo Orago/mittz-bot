@@ -15,7 +15,7 @@ app.get("/", (request, response) => {
 });
 app.listen(process.env.PORT);
 setInterval(() => {
-  http.get(`http://mittz-bot.glitch.me/`);
+  http.get("https://mittzbot.herokuapp.com/");
 }, 280000);
 // If you didn't want to run in 24/7 you can remove it.
 const Discord = require("discord.js");
@@ -129,6 +129,14 @@ client.on('message', message => {if (message.content.startsWith("oof")) {
   }   
 });
 
+client.on('message', message => {if (message.content.startsWith("!v!")) {
+  message.channel.send("Hello I am !v!ittz").then(msg => { 
+	message.channel.send("please say" + prefix + "commands, for more help").then(msg => {   
+    	});
+    });   
+  }   
+});
+
 client.on('message', message => {if (message.content.startsWith(prefix + "info")) {
   message.channel.send(prefix + "i t t z Bot V" + botver).then(msg => {   
     message.channel.send("[" + prefix + "]" + " This Bot was a project created by Orago").then(msg => {   
@@ -172,7 +180,7 @@ client.on('message', message => {
 
 client.on("ready", async () => {
 
-  client.user.setActivity(`Just say Oof !`, {
+  client.user.setActivity(`Just say Mittz !`, {
     type: "Playing"
   });
   
