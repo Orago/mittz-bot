@@ -178,4 +178,4 @@ client.on("ready", async () => {
   
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.BOT_TOKEN);//BOT_TOKEN is the Client Secret
