@@ -1,304 +1,12 @@
-// If you didn't want to run in 24/7 you can remove it.
-const http = require('http');
-const express = require('express');
-const Discord = require("discord.js");const client = new Discord.Client();
-const fs = require("fs");
-const app = express();
+/* Discord.js */
+const Discord = require('discord.js')
+let client = new Discord.Client()
+
+/* Canvas */
 const Canvas = require('canvas');
-const config = require('./config.json');
-const moment = require('moment');require('moment-duration-format');
+
 /* FileSync */
-let owner = config.ownerid;
-let botver = config.mainbot_ver;
-let botname = config.botname;
-let prefix = config.prefix; // Please change YOURPREFIX to your prefix. (Example: . ! - ; >)
-let eprefix = prefix+" ";
-let beprefix = " "+eprefix;
-let economy_prefix = "$"+prefix;
-var commandlist = [beprefix+"help",beprefix+"profile",beprefix+"prefix",beprefix+"clear",beprefix+"cat"," "+economy_prefix+"help"];
-
-
-
-/*global Set, Map*/
-app.use(express.static('public'));
-app.listen(process.env.PORT);
-app.get("/", (request, response) => {
-  console.log(Date.now() + " Ping Received");
-  response.sendStatus(200); // Here, you can send a response to the website. Example i choosed 200, that means the server was fine, working normally.
-  
-  // So, if change to 500, response will send a status with 500, that means i'm currently dead, you need to repair my coding/server.
-});
-// If you didn't want to run in 24/7 you can remove it.
-
-let profiles = JSON.parse(fs.readFileSync(__dirname+"/profiles.json"));
-let datafile = JSON.parse(fs.readFileSync(__dirname+"/data.json"));
-
-
-// Message edit event
-client.on("messageUpdate", async(oldMessage, newMessage, message) => {
-  // First let's also check that the content has actually changed
-  if(oldMessage.content === newMessage.content){
-    return;
-  }
-  // Get the log channel
-  var logchannel = client.channels.fetch("464255108184539136"); // Replace CHANNEL_ID with your channel id.
-  // Log embed
-  let logembed = new Discord.RichEmbed()
-  .setAuthor(oldMessage.author.tag, oldMessage.author.avatarURL)
-  .setThumbnail(oldMessage.author.avatarURL)
-  .setColor("RED")
-  .setDescription("Message Edited")
-  .addField("Before", oldMessage.content, true)
-  .addField("After", newMessage.content, true)
-  .setTimestamp()
-  // Send the embed
-  message.send(logembed)
-})
-
-// Message deletion event
-client.on("messageDelete", async message => {
-  // Get the log channel again
-  var logchannel = client.channels.get("📣-news-📣"); // Replace CHANNEL_ID with your channel id.
-  // Log embed
-  let logembed = new Discord.MessageEmbed()
-  .setAuthor(message.author.tag, message.author.avatarURL)
-  .setThumbnail(message.author.avatarURL)
-  .setColor("RED")
-  .setDescription(":wastebasket: Message Deleted")
-  .addField("Message", message.content, true)
-  .setTimestamp()
-  // Let's send the embed
-  logchannel.send(logembed)   })
-
-client.on("channelCreate", async (channel, message) => {
-	var logs = channel.fetch(c => c.name === '📣-news-📣'); // Replace YOURCHANNEL_NAME with your channel name.
-	if (!logs) return console.log("Can't find logs channel.");
-	const cembed = new Discord.MessageEmbed()
-		.setTitle("Channel Created")
-		.setColor("RANDOM")
-		.setDescription(`A **${channel.type} channel**, by the name of **${channel.name}**, was just created!`)
-		.setTimestamp(new Date());
-	logs.send(cembed)   });
-
-
-
-
-client.on("channelDelete", async (channel,message) => {
-	var logs = channel.fetch(c => c.name === '#📣-news-📣'); // Replace YOURCHANNEL_NAME with your channel name.
-	if (!logs) return console.log("Can't find logs channel.");
-	const cembed = new Discord.MessageEmbed()
-		.setTitle("Channel Deleted")
-		.setColor("RANDOM")
-		.setDescription(`A **${channel.type} channel**, by the name of **${channel.name}**, was just deleted!`)
-		.setTimestamp(new Date())
-	message.send(cembed)
-});
-
-
-client.on("message", (message) => {
-  if (message.content == eprefix+'stats') {
-    message.channel.send(`I am in ${client.guilds.cache.size} servers!`); 
-	}
-  
-  if (message.content === eprefix+'avatar') {
-    var member= message.mentions.members.first();
-      let embed = new Discord.RichEmbed()
-        .setImage(message.member.avatarURL)
-      .setColor('#275BF0')
-    message.channel.send(embed)
-  }
-  
-  if (message.content.startsWith(eprefix + "ping")) {
-    message.channel.send("Pong!").then(msg => {
-      msg.edit(`Pong! ${msg.createdTimestamp - message.createdTimestamp}ms round-trip, ${Math.round(client.ping)}ms API heartbeat!`);   
-    });   
-  }
-  
-  
-  if (message.content==(eprefix + "help")||message.content==(eprefix + "commands")) {
-    const embed = new Discord.MessageEmbed()
-        .setThumbnail(client.user.displayAvatarURL)
-        .setTitle('__Mittz Information__')
-        .setDescription('Hello! <:gold:733213975705026620> I\'m '+botname+'.\nI can do lots of things l-like... Oh! Be a DJ!, send cat pictures!, clear a bit of the chat, and run a failing economy system.  Well... There isn\'nt much else i can do... Use `'+eprefix+'commandlist` to see what other things i can do.')
-        .setColor(config.color)
-        .addField('__Developer__', '<@193127888646701056>', true)
-        .addField('__Library__', 'Discord.js', true)
-        .addField('__Server Count__', client.guilds.cache.size, true)
-        .addField('__User Count__', client.users.cache.size, true)
-        .addField('__Channel Count__', client.channels.cache.size, true)
-        .addField('__Emojis Count__', client.emojis.cache.size, true)
-        .addField('__Uptime__', moment.duration(client.uptime).format('d[d ]h[h ]m[m ]s[s]'), true)
-        .addField(`__Creator's Homepage__`, 'https://mittens.glitch.me', true)
-        .addField('__Memory Usage__', `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`, true)
-        .setFooter(`${client.user.username} | By: Orago`)
-      message.channel.send(embed);
-  }
- if (message.content==(eprefix + "cl")) {
-
-    const embed = new Discord.MessageEmbed()
-        .setThumbnail(client.user.displayAvatarURL)
-        .setTitle('__Mittz Commands__')
-        .setDescription('Hello! <:gold:733213975705026620>')
-        .setColor(config.color)
-        .addField('__Command List 1__', commandlist.toString(), true)
-        .setFooter(`${client.user.username} | By: Orago`)
-      message.channel.send(embed);
-  }
-  
-if (message.content==("Mittz")|| message.content==("mittz")) {
-  message.channel.send("My prefix is "+prefix+" ").then(msg => {});   
-  }   
-  
-  
-  
-if (message.content==(prefix + "homepage")) {
-  const embed = new Discord.MessageEmbed()
-  .setTitle("Visit homepage")
-  .setAuthor("Mittens Homepage", "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2F8bitpc%20vaporwave%20blue%20cat.png?v=1594354853240")
-  .setColor(0x00AE86)
-  .setDescription("This is the homepage for all of the projects made by the same creator of this very bot!")
-  .setFooter("Created by Orago", "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664")
-  .setImage("https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664")
-  .setThumbnail("https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Finbreadspread.png?v=1594354874436")
-  /*
-   * Takes a Date object, defaults to current date.
-   */
-  .setTimestamp()
-  .setURL("https://mittens.glitch.com")
-message.channel.send(embed);
-}
-  var args = message.content.split(" ").slice(1);
-if (message.content.startsWith(eprefix + "profile")) {  
-  const user = getUserFromMention(args[1]);
-  if (args[1]) {
-		if (!user) {
-			return message.reply('Please use a proper mention if you want to see someone else\'s avatar.');
-		}
-		var person = user;
-	} else
-var person = message.author;
-  const embed = new Discord.MessageEmbed()
-  .setTitle(person.username)
-  .setAuthor("Mittz Bot", "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2F8bitpc%20vaporwave%20blue%20cat.png?v=1594354853240")
-  .setColor(0x00AE86)
-  .setDescription("ID: "+person.id+" ")
-  .setFooter("Created by Orago", "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664")
-  .setImage(person.avatarURL("png",false,32))
-  .setThumbnail("")
-  /*
-   * Takes a Date object, defaults to current date.
-   */
-  .setTimestamp()
-  //.setURL("#")
-message.channel.send(embed);
-}
-  
-
-if (message.content.startsWith(eprefix+"takerole")) {
-  const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
-const role = args.join(' '); // Amount of messages which should be deleted
-if (!role) return message.reply('You haven\'t given a role to add!'); // Checks if the `amount` parameter is given
-if (!isNaN(role)) return message.reply('There is no such role to possibly remove'); // Checks if the `amount` parameter is a number. If not, the command throws an error
-if (role == 'furry') {message.reply('you removed the '+role+' role from yourself.');message.member.roles.remove('731017303889805373');} // Checks if the `amount` integer is bigger than 100
-else if (role == 'gamer') {message.reply('you removed the '+role+' role from yourself.');message.member.roles.remove('462002042148356096');} // Checks if the `amount` integer is smaller than 1
-else if (role == 'coder') {message.reply('you removed the '+role+' role from yourself.');message.member.roles.remove('731062415214510130');} // Checks if the `amount` integer is smaller than 1
-
-  else message.reply('There is no such role');
-  }
-if (message.content.startsWith(eprefix+"giverole")) {
-  const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
-const role = args.join(' '); // Amount of messages which should be deleted
-if (!role) return message.reply('You haven\'t given a role to remove!'); // Checks if the `amount` parameter is given
-if (!isNaN(role)) return message.reply('Not a real role!'); // Checks if the `amount` parameter is a number. If not, the command throws an error
-if (role == 'furry') {message.reply('you gave yourself the '+role+' role.');message.member.roles.add('731017303889805373');} // Checks if the `amount` integer is bigger than 100
-else if (role == 'gamer') {message.reply('you gave yourself the '+role+' role.');message.member.roles.add('462002042148356096');} // Checks if the `amount` integer is smaller than 1
-else if (role == 'coder') {message.reply('you gave yourself the '+role+' role.');message.member.roles.add('731062415214510130');} // Checks if the `amount` integer is smaller than 1
-  else message.reply('There is no such role');
-  }  
-  
-  if (message.content.startsWith(eprefix+"cat")) {
-    
-    const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
-const text = args.join(' '); // Amount of messages which should be deleted
-    
-    if (!text) {let embed = new Discord.MessageEmbed()
-        .setAuthor(message.member.user.tag, message.member.user.avatarURL)
-        .setColor(0xdd9323)
-        .setImage('https://cataas.com/cat/says/%20');
-
-    message.channel.send(embed);}// Checks if the `amount` parameter is given
-    else if(text){let embed = new Discord.MessageEmbed()
-        .setAuthor(message.member.user.tag, message.member.user.avatarURL)
-        .setColor(0xdd9323)
-        .setImage('https://cataas.com/cat/says/'+text.replace(" ", "%20"));
-
-    message.channel.send(embed);}
-    
-  }
-//Owner Commands
-if (message.member.roles.cache.find(r => r.name === "🐅 - Moderator")||message.member.roles.cache.find(r => r.name === "🐆 - Server Moderator")||message.member.roles.cache.find(r => r.name === "🐯 - Administrator")){
-if (message.content.startsWith(eprefix+"clear")) {
-  const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
-const amount = args.join(' '); // Amount of messages which should be deleted
-if (!amount) return message.reply('You haven\'t given an amount of messages which should be deleted!'); // Checks if the `amount` parameter is given
-if (isNaN(amount)) return message.reply('The amount parameter isn`t a number!'); // Checks if the `amount` parameter is a number. If not, the command throws an error
-if (amount > 100) return message.reply('You can`t delete more than 100 messages at once!'); // Checks if the `amount` integer is bigger than 100
-if (amount < 1) return message.reply('You have to delete at least 1 message!'); // Checks if the `amount` integer is smaller than 1
- message.channel.messages.fetch({ limit: amount }).then(messages => { // Fetches the messages
-    message.channel.bulkDelete(messages); // Bulk deletes all messages that have been fetched and are not older than 14 days (due to the Discord API)
-  if(amount > 1){message.channel.send(":white_check_mark: "+amount+" messages have been deleted")} else {message.channel.send(":white_check_mark: 1 message has been deleted")};
-});}
-  
-if (!message.guild) return;
-  if (message.content.startsWith(eprefix + 'kick')) {
-    const user = message.mentions.users.first();
-    if (user) {
-      if (user=="578319500475105341") {return message.reply("sad cat noises 3:")};
-      const member = message.guild.member(user);
-      if (member) {
-        member.kick('Optional reason that will display in the audit logs').then(() => {
-          message.reply(`Successfully kicked ${user.tag}`);
-        }).catch(err => {
-          message.reply('I was unable to kick this member');
-          console.error(err);
-        });
-      } else {
-        message.reply('That user isn\'t in this guild!');
-      }
-    } else {
-      message.reply('You didn\'t mention the user to kick!');
-      }
-    }
-  
-  var notify = eprefix+'notify-all';
-  if (message.guild && message.content.startsWith(notify)) {
-  let text = message.content.slice(notify.length); // cuts off the /private partmessage.guild.members.fetch()
-     client.guilds.send(text)
-  .then(member.send(text))
-  .catch(console.error);
-  }
-  
-
-  var args = message.content.split(" ").slice(1);
-  if (message.content.startsWith(prefix + "setstatus")) {
-    var gamestr = args.join(" ").replace("playing ", "");
-      client.user.setPresence({ game: { name: gamestr, type: 0 } });
-        message.channel.send("**The game was set to **" + gamestr); // do not modify gamestr, or your      
-    }
-  
-  }//else if (message.content.startsWith(prefix)) {message.channel.send("You don't have access to use this")}
-  //End of all commands
-});
-
-client.on('guildMemberAdd', member => {
-  // Send the message to a designated channel on a server:
-  const channel = member.guild.channels.cache.find(ch => ch.name === 'member-logs');
-  // Do nothing if the channel wasn't found on this server
-  if (!channel) return;
-  // Send the message, mentioning the member
-  channel.send(`Welcome to the server, ${member}`);
-});
-
+const fs = require("fs")
 function getUserFromMention(mention) {
 	if (!mention) return;
 
@@ -312,7 +20,38 @@ function getUserFromMention(mention) {
 		return client.users.cache.get(mention);
 	}
 }
+/* Load Data Files */
+let profiles = JSON.parse(fs.readFileSync(__dirname+"/profiles.json"));
+let datafile = JSON.parse(fs.readFileSync(__dirname+"/data.json"));
 
+/* Setup Express */
+var express = require('express');
+var app = express();
+
+var port = 3000
+app.get("/", (request, response) => {
+  response.sendStatus(200);
+});
+
+app.listen(port, () => console.log("Server Online!"))
+
+/* Connect discord.js to bot user */
+client.login(process.env.economytoken).catch(console.error);
+
+/* When bot user is ready: */
+client.on('ready', function (evt, callback) {
+ client.user.setUsername("Mittz Economy"); // Set Bot Username
+ console.log(client.user.tag + " online in " + client.guilds.size + " guilds!"); // Log Bot Startup
+
+ /* Set Bot Status */
+ client.user.setPresence({
+   game: {
+     type: 0, // Set to 'playing'
+     name: `+help | ConnectBot Beta | ${client.guilds.size} servers!` // Set what the bot is 'playing'
+   },
+   status: "online" // Set bot to online status
+ });
+});
 
 
 /* Functions */
@@ -336,12 +75,12 @@ var commands = {
    aliases:["cmds","commands"],
    run: (message) => {
      let embed = new Discord.MessageEmbed()
-     embed.setAuthor("Mittz Economy", client.user.avatarURL)
-     embed.addField("📇 **Profile Commands**","`"+economy_prefix+"setup` - Setup your profile\n`"+economy_prefix+"profile` - View your profile\n`"+economy_prefix+"get (user)` - Get another user's profile\n`"+economy_prefix+"edit` - Edit your profile")
-     embed.addField("💵 **Get Experience**", "`"+economy_prefix+"work` - Gain from 1xp to 300xp every 10 minutes\n`"+economy_prefix+"gamble (xp)` - 1/2 chance of doubling xp\n`"+economy_prefix+"crime` - 1/5 chance of getting up to 1200xp. Or loosing it.\n`"+economy_prefix+"fish` - Go fishing, and try to sell the fish for more than you pay for casting!\n`Every Message` - Gain 10xp for every message every 30 seconds")
-     embed.addField("🛒 **Buy Stuff**","`"+economy_prefix+"shop` - Buy something from the shop.")
-     embed.setColor("RANDOM")
-     embed.setFooter("Mittz Bot")
+     embed.setAuthor("ConnectBot Commands", client.user.avatarURL)
+     embed.addField("📇 **Profile Commands**","`+setup` - Setup your profile\n`+profile` - View your profile\n`+get (user)` - Get another user's profile\n`+edit` - Edit your profile")
+     embed.addField("💵 **Get Experience**", "`+work` - Gain from 1xp to 300xp every 10 minutes\n`+gamble (xp)` - 1/2 chance of doubling xp\n`+crime` - 1/5 chance of getting up to 1200xp. Or loosing it.\n`+fish` - Go fishing, and try to sell the fish for more than you pay for casting!\n`Every Message` - Gain 10xp for every message every 30 seconds")
+     embed.addField("🛒 **Buy Stuff**","`+shop` - Buy something from the shop.")
+     embed.setColor("GREEN")
+     embed.setFooter("Connect Soical Bot")
      message.channel.send(embed)
    }
  },
@@ -584,7 +323,7 @@ var commands = {
    aliases:[],
    run: (message) => {
      if (!profiles.profiles.includes(message.author.id)) return message.channel.send("<:warning:579387552453099561> **Whoops!** Please create your profile first: `+setup`")
-     if (!message.content.startsWith(economy_prefix+"edit bio") && !message.content.startsWith(economy_prefix+"edit background")) {
+     if (!message.content.startsWith("+edit desc") && !message.content.startsWith("+edit back")) {
        const canvas = Canvas.createCanvas(700, 250);
        const ctx = canvas.getContext('2d');
        Canvas.loadImage('https://convertingcolors.com/plain-2C2F33.svg').then((background) => {
@@ -593,12 +332,12 @@ var commands = {
                ctx.drawImage(icon, 20, 50, 150, 150);
                ctx.font = '30px sans-serif';
                ctx.fillStyle = '#ffffff';
-               ctx.fillText(`\n`+economy_prefix+`edit desc: edit your description\n\n`+economy_prefix+`edit back: edit your background`, 165, 60);
+               ctx.fillText(`+edit desc - edit your description\n\n+edit back - edit your background`, 175, 100);
                const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'profile.png');
                message.channel.send(attachment);
            })
        })
-     } else if (message.content.startsWith(economy_prefix+"edit bio")) {
+     } else if (message.content.startsWith("+edit desc")) {
        const filter = (m) => m.author.id === message.author.id;
        message.channel.send("📝 Send your desired description to this channel!")
        const collector = message.channel.createMessageCollector(filter);
@@ -609,8 +348,8 @@ var commands = {
          collector.stop()
        });
        collector.on('end', collected => console.log(`Collected ${collected.size} items`));
-     } else if (message.content.startsWith(economy_prefix+'edit background')) {
-       let attachment = new Discord.MessageAttachment('https://cdn.glitch.com/ecec1dd0-4cb5-43ec-8d0f-c30d2f009ea3%2Fchoosebackground.png', 'profile.png');
+     } else if (message.content.startsWith('+edit back')) {
+       let attachment = new Discord.MessageAttachment('choosebackground.png', 'profile.png');
        message.channel.send('📝 Send your desired background\'s number to this channel!', attachment);
        const filter = (m) => m.author.id === message.author.id;
        const collector = message.channel.createMessageCollector(filter);
@@ -779,21 +518,12 @@ client.on("message", async (message) => {
     }, 30000);
   }
   }
- if(message.content.toLowerCase().startsWith(economy_prefix)) {
+ if(message.content.toLowerCase().startsWith("+")) {
    for(let i in commands) {
-     if(message.content.toLowerCase().split(" ")[0].slice(economy_prefix.length) === i || commands[i].aliases.includes(message.content.toLowerCase().split(" ")[0].slice(1))) {
+     if(message.content.toLowerCase().split(" ")[0].slice(1) === i || commands[i].aliases.includes(message.content.toLowerCase().split(" ")[0].slice(1))) {
        commands[i].run(message)
        console.log(`${message.author.tag} used the ${commands[i].usage} command in ${message.guild.name}`)
      }
    }
  }
 })
-
-
-client.on("ready", async () => {
-  //client.user.setUsername("Mittz");
-  client.user.setPresence({ activity: { name: `${eprefix} help | ${client.guilds.cache.size} guilds`,type: "STREAMING",url:"https://www.youtube.com/watch?v=P4i-VYcrEuc"}, status: 'idle'});
-  //client.user.setActivity(`${sprefix} help | ${client.guilds.cache.size} guilds`, { type: 'STREAMING',url:"https://www.youtube.com/watch?v=P4i-VYcrEuc" });
-});
-
-client.login(process.env.main_token);

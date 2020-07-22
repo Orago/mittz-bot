@@ -1,0 +1,301 @@
+// If you didn't want to run in 24/7 you can remove it.
+const http = require('http');
+const express = require('express');
+const app = express();
+var owner = "193127888646701056"
+let prefix = "!v! "; // Please change YOURPREFIX to your prefix. (Example: . ! - ; >)
+let sprefix = "!v!";
+let hm = "Here you go :3";
+let botver = "1.04"
+let bot_name = "Mittz";
+/*global Set, Map*/
+app.use(express.static('public'));
+app.listen(process.env.PORT);
+app.get("/", (request, response) => {
+  console.log(Date.now() + " Ping Received");
+  response.sendStatus(200); // Here, you can send a response to the website. Example i choosed 200, that means the server was fine, working normally.
+  
+  // So, if change to 500, response will send a status with 500, that means i'm currently dead, you need to repair my coding/server.
+});
+// If you didn't want to run in 24/7 you can remove it.
+const Discord = require("discord.js");
+const client = new Discord.Client();
+
+//client.on("ready", () => {
+//     console.log('Your very own message printed to the console, if the client (bot) was ready.')
+//});
+ 
+
+// Message edit event
+client.on("messageUpdate", async(oldMessage, newMessage, message) => {
+  // First let's also check that the content has actually changed
+  if(oldMessage.content === newMessage.content){
+    return;
+  }
+  // Get the log channel
+  var logchannel = client.channels.fetch("464255108184539136"); // Replace CHANNEL_ID with your channel id.
+  // Log embed
+  let logembed = new Discord.RichEmbed()
+  .setAuthor(oldMessage.author.tag, oldMessage.author.avatarURL)
+  .setThumbnail(oldMessage.author.avatarURL)
+  .setColor("RED")
+  .setDescription("Message Edited")
+  .addField("Before", oldMessage.content, true)
+  .addField("After", newMessage.content, true)
+  .setTimestamp()
+  // Send the embed
+  message.send(logembed)
+})
+
+// Message deletion event
+client.on("messageDelete", async message => {
+  // Get the log channel again
+  var logchannel = client.channels.get("📣-news-📣"); // Replace CHANNEL_ID with your channel id.
+  // Log embed
+  let logembed = new Discord.MessageEmbed()
+  .setAuthor(message.author.tag, message.author.avatarURL)
+  .setThumbnail(message.author.avatarURL)
+  .setColor("RED")
+  .setDescription(":wastebasket: Message Deleted")
+  .addField("Message", message.content, true)
+  .setTimestamp()
+  // Let's send the embed
+  logchannel.send(logembed)   })
+
+client.on("channelCreate", async (channel, message) => {
+	var logs = channel.fetch(c => c.name === '📣-news-📣'); // Replace YOURCHANNEL_NAME with your channel name.
+	if (!logs) return console.log("Can't find logs channel.");
+	const cembed = new Discord.MessageEmbed()
+		.setTitle("Channel Created")
+		.setColor("RANDOM")
+		.setDescription(`A **${channel.type} channel**, by the name of **${channel.name}**, was just created!`)
+		.setTimestamp(new Date());
+	logs.send(cembed)   });
+
+
+
+
+client.on("channelDelete", async (channel,message) => {
+	var logs = channel.fetch(c => c.name === '#📣-news-📣'); // Replace YOURCHANNEL_NAME with your channel name.
+	if (!logs) return console.log("Can't find logs channel.");
+	const cembed = new Discord.MessageEmbed()
+		.setTitle("Channel Deleted")
+		.setColor("RANDOM")
+		.setDescription(`A **${channel.type} channel**, by the name of **${channel.name}**, was just deleted!`)
+		.setTimestamp(new Date())
+	message.send(cembed)
+});
+
+
+client.on("message", (message) => {
+  if (message.content == prefix+'stats') {
+    message.channel.send(`I am in ${client.guilds.cache.size} servers!`); 
+	}
+  
+  if (message.content === prefix+'avatar') {
+    var member= message.mentions.members.first();
+      let embed = new Discord.RichEmbed()
+        .setImage(message.member.avatarURL)
+      .setColor('#275BF0')
+    message.channel.send(embed)
+  }
+  
+  if (message.content.startsWith(prefix + "ping")) {
+    message.channel.send("Pong!").then(msg => {
+      msg.edit(`Pong! ${msg.createdTimestamp - message.createdTimestamp}ms round-trip, ${Math.round(client.ping)}ms API heartbeat!`);   
+    });   
+  }
+  
+  
+  if (message.content==(prefix + "help")||message.content==(prefix + "commands")) {
+    message.channel.send("This command is under developement currently.").then(msg => {    
+    }); 
+  }
+ 
+  
+if (message.content==("Mittz")|| message.content==("mittz")) {
+  message.channel.send("My prefix is !v! ").then(msg => {});   
+  }   
+  
+  if (message.content==("uwu")||message.content==("owo")) {
+  //if (message.channel.name == 'commands') {return message.reply(':x: You must go to the channel #alerts');}
+  //message.member.addRole("731017303889805373");
+  //var role = message.guild.roles.find(role => role.name === "731017303889805373");
+  //var role= member.guild.roles.cache.find(role => role.name === "furry");
+    message.member.roles.add('731017303889805373');
+      message.channel.send("Eww");
+  }
+  
+if (message.content==(prefix + "homepage")) {
+  const embed = new Discord.MessageEmbed()
+  .setTitle("Visit homepage")
+  .setAuthor("Mittens Homepage", "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2F8bitpc%20vaporwave%20blue%20cat.png?v=1594354853240")
+  .setColor(0x00AE86)
+  .setDescription("This is the homepage for all of the projects made by the same creator of this very bot!")
+  .setFooter("Created by Orago", "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664")
+  .setImage("https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664")
+  .setThumbnail("https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Finbreadspread.png?v=1594354874436")
+  /*
+   * Takes a Date object, defaults to current date.
+   */
+  .setTimestamp()
+  .setURL("https://mittens.glitch.com")
+message.channel.send(embed);
+}
+  var args = message.content.split(" ").slice(1);
+if (message.content.startsWith(prefix + "profile")) {  
+  const user = getUserFromMention(args[1]);
+  if (args[1]) {
+		if (!user) {
+			return message.reply('Please use a proper mention if you want to see someone else\'s avatar.');
+		}
+		var person = user;
+	} else
+var person = message.author;
+  const embed = new Discord.MessageEmbed()
+  .setTitle(person.username)
+  .setAuthor("Mittz Bot", "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2F8bitpc%20vaporwave%20blue%20cat.png?v=1594354853240")
+  .setColor(0x00AE86)
+  .setDescription("ID: "+person.id+" ")
+  .setFooter("Created by Orago", "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664")
+  .setImage(person.avatarURL("png",false,32))
+  .setThumbnail("")
+  /*
+   * Takes a Date object, defaults to current date.
+   */
+  .setTimestamp()
+  //.setURL("#")
+message.channel.send(embed);
+}
+  
+
+if (message.content.startsWith(prefix+"takerole")) {
+  const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
+const role = args.join(' '); // Amount of messages which should be deleted
+if (!role) return message.reply('You haven\'t given a role to add!'); // Checks if the `amount` parameter is given
+if (!isNaN(role)) return message.reply('There is no such role to possibly remove'); // Checks if the `amount` parameter is a number. If not, the command throws an error
+if (role == 'furry') {message.reply('you removed the '+role+' role from yourself.');message.member.roles.remove('731017303889805373');} // Checks if the `amount` integer is bigger than 100
+else if (role == 'gamer') {message.reply('you removed the '+role+' role from yourself.');message.member.roles.remove('462002042148356096');} // Checks if the `amount` integer is smaller than 1
+else if (role == 'coder') {message.reply('you removed the '+role+' role from yourself.');message.member.roles.remove('731062415214510130');} // Checks if the `amount` integer is smaller than 1
+
+  else message.reply('There is no such role');
+  }
+if (message.content.startsWith(prefix+"giverole")) {
+  const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
+const role = args.join(' '); // Amount of messages which should be deleted
+if (!role) return message.reply('You haven\'t given a role to remove!'); // Checks if the `amount` parameter is given
+if (!isNaN(role)) return message.reply('Not a real role!'); // Checks if the `amount` parameter is a number. If not, the command throws an error
+if (role == 'furry') {message.reply('you gave yourself the '+role+' role.');message.member.roles.add('731017303889805373');} // Checks if the `amount` integer is bigger than 100
+else if (role == 'gamer') {message.reply('you gave yourself the '+role+' role.');message.member.roles.add('462002042148356096');} // Checks if the `amount` integer is smaller than 1
+else if (role == 'coder') {message.reply('you gave yourself the '+role+' role.');message.member.roles.add('731062415214510130');} // Checks if the `amount` integer is smaller than 1
+  else message.reply('There is no such role');
+  }  
+  
+  if (message.content.startsWith(prefix+"cat")) {
+  let meow =  fetch('http://aws.random.cat/meow')
+        .then(res => res.json())
+        .then(json => json.file);
+
+    // anthony#8577
+    let embed = new Discord.MessageEmbed()
+        .setAuthor(message.member.user.tag, message.member.user.avatarURL)
+        .setColor(0xdd9323)
+        .setImage(meow);
+
+    message.channel.send(embed);
+  }
+//Owner Commands
+if (message.member.roles.cache.find(r => r.name === "🐅 - Moderator")||message.member.roles.cache.find(r => r.name === "🐆 - Server Moderator")||message.member.roles.cache.find(r => r.name === "🐯 - Administrator")){
+if (message.content.startsWith(prefix+"clear")) {
+  const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
+const amount = args.join(' '); // Amount of messages which should be deleted
+if (!amount) return message.reply('You haven\'t given an amount of messages which should be deleted!'); // Checks if the `amount` parameter is given
+if (isNaN(amount)) return message.reply('The amount parameter isn`t a number!'); // Checks if the `amount` parameter is a number. If not, the command throws an error
+if (amount > 100) return message.reply('You can`t delete more than 100 messages at once!'); // Checks if the `amount` integer is bigger than 100
+if (amount < 1) return message.reply('You have to delete at least 1 message!'); // Checks if the `amount` integer is smaller than 1
+ message.channel.messages.fetch({ limit: amount }).then(messages => { // Fetches the messages
+    message.channel.bulkDelete(messages); // Bulk deletes all messages that have been fetched and are not older than 14 days (due to the Discord API)
+  if(amount > 1){message.channel.send(":white_check_mark: "+amount+" messages have been deleted")} else {message.channel.send(":white_check_mark: 1 message has been deleted")};
+});}
+  
+if (!message.guild) return;
+  if (message.content.startsWith(prefix + 'kick')) {
+    const user = message.mentions.users.first();
+    if (user) {
+      if (user=="578319500475105341") {return message.reply("sad cat noises 3:")};
+      const member = message.guild.member(user);
+      if (member) {
+        member.kick('Optional reason that will display in the audit logs').then(() => {
+          message.reply(`Successfully kicked ${user.tag}`);
+        }).catch(err => {
+          message.reply('I was unable to kick this member');
+          console.error(err);
+        });
+      } else {
+        message.reply('That user isn\'t in this guild!');
+      }
+    } else {
+      message.reply('You didn\'t mention the user to kick!');
+      }
+    }
+  
+  
+  
+  var notify = prefix+'notify-all';
+  if (message.guild && message.content.startsWith(notify)) {
+  let text = message.content.slice(notify.length); // cuts off the /private part
+    message.guild.members.forEach(member => {
+if (member.id != client.user.id && !member.user.bot) member.send(text);
+    });
+  }
+  
+  var args = message.content.split(" ").slice(1);
+  if (message.content.startsWith(sprefix + "setstatus")) {
+    var gamestr = args.join(" ").replace("playing ", "");
+      client.user.setPresence({ game: { name: gamestr, type: 0 } });
+        message.channel.send("**The game was set to **" + gamestr); // do not modify gamestr, or your      
+    }
+  
+  }//else if (message.content.startsWith(prefix)) {message.channel.send("You don't have access to use this")}
+  //End of all commands
+});
+
+client.on("message", (message,guild) => {
+  
+  });
+
+
+
+client.on('guildMemberAdd', member => {
+  // Send the message to a designated channel on a server:
+  const channel = member.guild.channels.cache.find(ch => ch.name === 'member-log');
+  // Do nothing if the channel wasn't found on this server
+  if (!channel) return;
+  // Send the message, mentioning the member
+  channel.send(`Welcome to the server, ${member}`);
+});
+
+function getUserFromMention(mention) {
+	if (!mention) return;
+
+	if (mention.startsWith('<@') && mention.endsWith('>')) {
+		mention = mention.slice(2, -1);
+
+		if (mention.startsWith('!')) {
+			mention = mention.slice(1);
+		}
+
+		return client.users.cache.get(mention);
+	}
+}
+
+
+
+
+
+client.on("ready", async () => {
+
+  client.user.setPresence({ activity: { name: '!v! commands',type: "STREAMING",url:"https://www.youtube.com/watch?v=P4i-VYcrEuc"}, status: 'idle'})
+});
+
+client.login(process.env.TOKEN);

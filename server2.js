@@ -1,23 +1,23 @@
 // If you didn't want to run in 24/7 you can remove it.
 const http = require('http');
 const express = require('express');
-const Discord = require("discord.js");const client = new Discord.Client();
-const fs = require("fs");
+const Discord = require("discord.js");
+const client = new Discord.Client();
+
+//const user = require('');
 const app = express();
+/* Canvas */
 const Canvas = require('canvas');
-const config = require('./config.json');
-const moment = require('moment');require('moment-duration-format');
+
 /* FileSync */
-let owner = config.ownerid;
-let botver = config.mainbot_ver;
-let botname = config.botname;
-let prefix = config.prefix; // Please change YOURPREFIX to your prefix. (Example: . ! - ; >)
-let eprefix = prefix+" ";
-let beprefix = " "+eprefix;
-let economy_prefix = "$"+prefix;
-var commandlist = [beprefix+"help",beprefix+"profile",beprefix+"prefix",beprefix+"clear",beprefix+"cat"," "+economy_prefix+"help"];
-
-
+const fs = require("fs")
+var owner = "193127888646701056"
+let prefix = "!v! "; // Please change YOURPREFIX to your prefix. (Example: . ! - ; >)
+let sprefix = "!v!";
+let economy_prefix = "m$";
+let hm = "Here you go :3";
+let botver = "1.04"
+let bot_name = "Mittz";
 
 /*global Set, Map*/
 app.use(express.static('public'));
@@ -96,11 +96,11 @@ client.on("channelDelete", async (channel,message) => {
 
 
 client.on("message", (message) => {
-  if (message.content == eprefix+'stats') {
+  if (message.content == prefix+'stats') {
     message.channel.send(`I am in ${client.guilds.cache.size} servers!`); 
 	}
   
-  if (message.content === eprefix+'avatar') {
+  if (message.content === prefix+'avatar') {
     var member= message.mentions.members.first();
       let embed = new Discord.RichEmbed()
         .setImage(message.member.avatarURL)
@@ -108,45 +108,21 @@ client.on("message", (message) => {
     message.channel.send(embed)
   }
   
-  if (message.content.startsWith(eprefix + "ping")) {
+  if (message.content.startsWith(prefix + "ping")) {
     message.channel.send("Pong!").then(msg => {
       msg.edit(`Pong! ${msg.createdTimestamp - message.createdTimestamp}ms round-trip, ${Math.round(client.ping)}ms API heartbeat!`);   
     });   
   }
   
   
-  if (message.content==(eprefix + "help")||message.content==(eprefix + "commands")) {
-    const embed = new Discord.MessageEmbed()
-        .setThumbnail(client.user.displayAvatarURL)
-        .setTitle('__Mittz Information__')
-        .setDescription('Hello! <:gold:733213975705026620> I\'m '+botname+'.\nI can do lots of things l-like... Oh! Be a DJ!, send cat pictures!, clear a bit of the chat, and run a failing economy system.  Well... There isn\'nt much else i can do... Use `'+eprefix+'commandlist` to see what other things i can do.')
-        .setColor(config.color)
-        .addField('__Developer__', '<@193127888646701056>', true)
-        .addField('__Library__', 'Discord.js', true)
-        .addField('__Server Count__', client.guilds.cache.size, true)
-        .addField('__User Count__', client.users.cache.size, true)
-        .addField('__Channel Count__', client.channels.cache.size, true)
-        .addField('__Emojis Count__', client.emojis.cache.size, true)
-        .addField('__Uptime__', moment.duration(client.uptime).format('d[d ]h[h ]m[m ]s[s]'), true)
-        .addField(`__Creator's Homepage__`, 'https://mittens.glitch.me', true)
-        .addField('__Memory Usage__', `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`, true)
-        .setFooter(`${client.user.username} | By: Orago`)
-      message.channel.send(embed);
+  if (message.content==(prefix + "help")||message.content==(prefix + "commands")) {
+    message.channel.send("This command is under developement currently.").then(msg => {    
+    }); 
   }
- if (message.content==(eprefix + "cl")) {
-
-    const embed = new Discord.MessageEmbed()
-        .setThumbnail(client.user.displayAvatarURL)
-        .setTitle('__Mittz Commands__')
-        .setDescription('Hello! <:gold:733213975705026620>')
-        .setColor(config.color)
-        .addField('__Command List 1__', commandlist.toString(), true)
-        .setFooter(`${client.user.username} | By: Orago`)
-      message.channel.send(embed);
-  }
+ 
   
 if (message.content==("Mittz")|| message.content==("mittz")) {
-  message.channel.send("My prefix is "+prefix+" ").then(msg => {});   
+  message.channel.send("My prefix is !v! ").then(msg => {});   
   }   
   
   
@@ -168,7 +144,7 @@ if (message.content==(prefix + "homepage")) {
 message.channel.send(embed);
 }
   var args = message.content.split(" ").slice(1);
-if (message.content.startsWith(eprefix + "profile")) {  
+if (message.content.startsWith(prefix + "profile")) {  
   const user = getUserFromMention(args[1]);
   if (args[1]) {
 		if (!user) {
@@ -194,7 +170,7 @@ message.channel.send(embed);
 }
   
 
-if (message.content.startsWith(eprefix+"takerole")) {
+if (message.content.startsWith(prefix+"takerole")) {
   const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
 const role = args.join(' '); // Amount of messages which should be deleted
 if (!role) return message.reply('You haven\'t given a role to add!'); // Checks if the `amount` parameter is given
@@ -205,7 +181,7 @@ else if (role == 'coder') {message.reply('you removed the '+role+' role from you
 
   else message.reply('There is no such role');
   }
-if (message.content.startsWith(eprefix+"giverole")) {
+if (message.content.startsWith(prefix+"giverole")) {
   const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
 const role = args.join(' '); // Amount of messages which should be deleted
 if (!role) return message.reply('You haven\'t given a role to remove!'); // Checks if the `amount` parameter is given
@@ -216,28 +192,22 @@ else if (role == 'coder') {message.reply('you gave yourself the '+role+' role.')
   else message.reply('There is no such role');
   }  
   
-  if (message.content.startsWith(eprefix+"cat")) {
-    
-    const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
-const text = args.join(' '); // Amount of messages which should be deleted
-    
-    if (!text) {let embed = new Discord.MessageEmbed()
+  if (message.content.startsWith(prefix+"cat")) {
+  let meow =  fetch('http://aws.random.cat/meow')
+        .then(res => res.json())
+        .then(json => json.file);
+
+    // anthony#8577
+    let embed = new Discord.MessageEmbed()
         .setAuthor(message.member.user.tag, message.member.user.avatarURL)
         .setColor(0xdd9323)
-        .setImage('https://cataas.com/cat/says/%20');
+        .setImage(meow);
 
-    message.channel.send(embed);}// Checks if the `amount` parameter is given
-    else if(text){let embed = new Discord.MessageEmbed()
-        .setAuthor(message.member.user.tag, message.member.user.avatarURL)
-        .setColor(0xdd9323)
-        .setImage('https://cataas.com/cat/says/'+text.replace(" ", "%20"));
-
-    message.channel.send(embed);}
-    
+    message.channel.send(embed);
   }
 //Owner Commands
 if (message.member.roles.cache.find(r => r.name === "🐅 - Moderator")||message.member.roles.cache.find(r => r.name === "🐆 - Server Moderator")||message.member.roles.cache.find(r => r.name === "🐯 - Administrator")){
-if (message.content.startsWith(eprefix+"clear")) {
+if (message.content.startsWith(prefix+"clear")) {
   const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
 const amount = args.join(' '); // Amount of messages which should be deleted
 if (!amount) return message.reply('You haven\'t given an amount of messages which should be deleted!'); // Checks if the `amount` parameter is given
@@ -250,7 +220,7 @@ if (amount < 1) return message.reply('You have to delete at least 1 message!'); 
 });}
   
 if (!message.guild) return;
-  if (message.content.startsWith(eprefix + 'kick')) {
+  if (message.content.startsWith(prefix + 'kick')) {
     const user = message.mentions.users.first();
     if (user) {
       if (user=="578319500475105341") {return message.reply("sad cat noises 3:")};
@@ -270,17 +240,18 @@ if (!message.guild) return;
       }
     }
   
-  var notify = eprefix+'notify-all';
+  
+  
+  var notify = prefix+'notify-all';
   if (message.guild && message.content.startsWith(notify)) {
   let text = message.content.slice(notify.length); // cuts off the /private partmessage.guild.members.fetch()
-     client.guilds.send(text)
+     message.guild.members.cache.send(text)
   .then(member.send(text))
   .catch(console.error);
   }
   
-
   var args = message.content.split(" ").slice(1);
-  if (message.content.startsWith(prefix + "setstatus")) {
+  if (message.content.startsWith(sprefix + "setstatus")) {
     var gamestr = args.join(" ").replace("playing ", "");
       client.user.setPresence({ game: { name: gamestr, type: 0 } });
         message.channel.send("**The game was set to **" + gamestr); // do not modify gamestr, or your      
@@ -292,7 +263,7 @@ if (!message.guild) return;
 
 client.on('guildMemberAdd', member => {
   // Send the message to a designated channel on a server:
-  const channel = member.guild.channels.cache.find(ch => ch.name === 'member-logs');
+  const channel = member.guild.channels.cache.find(ch => ch.name === 'member-log');
   // Do nothing if the channel wasn't found on this server
   if (!channel) return;
   // Send the message, mentioning the member
@@ -791,9 +762,8 @@ client.on("message", async (message) => {
 
 
 client.on("ready", async () => {
-  //client.user.setUsername("Mittz");
-  client.user.setPresence({ activity: { name: `${eprefix} help | ${client.guilds.cache.size} guilds`,type: "STREAMING",url:"https://www.youtube.com/watch?v=P4i-VYcrEuc"}, status: 'idle'});
-  //client.user.setActivity(`${sprefix} help | ${client.guilds.cache.size} guilds`, { type: 'STREAMING',url:"https://www.youtube.com/watch?v=P4i-VYcrEuc" });
+
+  client.user.setPresence({ activity: { name: '!v! commands',type: "STREAMING",url:"https://www.youtube.com/watch?v=P4i-VYcrEuc"}, status: 'idle'})
 });
 
 client.login(process.env.main_token);
