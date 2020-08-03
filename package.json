@@ -15,7 +15,9 @@
     "canvas": "^2.6.1",
     "fs": "^0.0.2",
     "moment": "^2.27.0",
-    "moment-duration-format": "^2.2.2"
+    "moment-duration-format": "^2.2.2",
+    "getyoutubesubscriber": "^0.1.4",
+    "jimp": "^0.10.0"
   },
   "engines": {
     "node": "12.x"
