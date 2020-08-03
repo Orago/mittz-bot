@@ -7,17 +7,13 @@
   "description": "A simple Node app built on Express, instantly up and running.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js & node poll.js"
+    "start": "node server.js"
+    //,"start": "node economy.js"
   },
   "dependencies": {
     "express": "^4.17.1",
     "discord.js": "^12.2.0",
-    "canvas": "^2.6.1",
-    "fs": "^0.0.2",
-    "moment": "^2.27.0",
-    "moment-duration-format": "^2.2.2",
-    "getyoutubesubscriber": "^0.1.4",
-    "jimp": "^0.10.0"
+    "canvas": "^2.6.1"
   },
   "engines": {
     "node": "12.x"

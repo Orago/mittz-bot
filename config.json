@@ -1,0 +1,14 @@
+{
+    "prefix": "!v!",
+    "economy_prefix": "m$",
+    "api": "YOUTUBE API KEY",
+    "botid": "BOT ID",
+    "botname": "Mittz",
+    "ownerid": "193127888646701056",
+    "colour": "BLUE",
+    "musicrole": "MUSIC DJ ROLE",
+    "mainbot_ver": "V1.1",
+    "pollbot_ver": "V1.01",
+    "admins": ["ADMIN ID's", "Supports multiple"],
+    "defaultvolume": "Default Playback Volume"
+}
