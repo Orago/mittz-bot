@@ -9,6 +9,8 @@ const config = require('./config.json');
 const moment = require('moment');require('moment-duration-format');
 const getYoutubeSubscriber = require('getyoutubesubscriber')
 const guildInvites = new Map();
+const ytdl = require('ytdl-core');
+
 /* FileSync */
 let botver = config.mainbot_ver;
 let owner = config.ownerid;
@@ -17,8 +19,9 @@ let prefix = config.prefix; // Please change YOURPREFIX to your prefix. (Example
 let eprefix = prefix+" ";
 let beprefix = " "+eprefix;
 let economy_prefix = config.economy_prefix/**/;
-var commandlist = [beprefix+"help",beprefix+"profile",beprefix+"prefix",beprefix+"clear",beprefix+"cat"," "+economy_prefix+"help",beprefix+"kawaii/"+eprefix+"kawaii leaderboard"];
-
+var commandlist = [beprefix+"help",beprefix+"profile",beprefix+"prefix",beprefix+"clear",beprefix+"cat",beprefix+"kawaii"];
+var number1;
+var number2;
 
 
 /*global Set, Map*/
@@ -33,7 +36,7 @@ app.get("/", (request, response) => {
 // If you didn't want to run in 24/7 you can remove it.
 
 
-let servers = JSON.parse(fs.readFileSync(__dirname+"/servers.json"));
+let server = JSON.parse(fs.readFileSync(__dirname+"/servers.json"));
 client.on('shardError', error => {
 	 console.error('A websocket connection encountered an error:', error);
 });
@@ -47,7 +50,7 @@ client.on("messageUpdate", async(oldMessage, newMessage, message) => {
     return;
   }
   // Get the log channel
-  var logchannel = message.guild.channels.cache.find(channel => channel.name === "bot-logs"); // Replace CHANNEL_ID with your channel id.
+  var logchannel = message.guild.channels.cache.find(channel => channel.name === "〔🤖｜bot-logs〕"); // Replace CHANNEL_ID with your channel id.
   // Log embed
   let logembed = new Discord.MessageEmbed()
   .setAuthor(oldMessage.author.tag, oldMessage.author.avatarURL)
@@ -58,13 +61,13 @@ client.on("messageUpdate", async(oldMessage, newMessage, message) => {
   .addField("After", newMessage.content, true)
   .setTimestamp()
   // Send the embed
-  message.send(logembed)
+  logchannel.send(logembed)
 })
 
 // Message deletion event
 client.on("messageDelete", async message => {
   // Get the log channel again
-  var logchannel = message.guild.channels.cache.find(channel => channel.name === "bot-logs");
+  var logchannel = message.guild.channels.cache.find(channel => channel.name === "〔🤖｜bot-logs〕");
   // Log embed
   var person = message.author;
   let logembed = new Discord.MessageEmbed()
@@ -113,11 +116,23 @@ client.on("message", (message) => {
   if (message.content == eprefix+'stats') {
     message.channel.send(`I am in ${client.guilds.cache.size} servers!`); 
 	}
-  if (message.content.startsWith(eprefix + "ping")) {
-    message.channel.send("Pong!").then(msg => {
-      msg.edit(`Pong! ${msg.createdTimestamp - message.createdTimestamp}ms round-trip, ${Math.round(client.ping)}ms API heartbeat!`);   
-    });   
-  }
+  if (message.content.startsWith(eprefix + 'ping')) {
+    try {
+      message.channel.send("Pinging...").then(msg=>{ // Make sure the async is written, top of the client.on("message", ...)
+      const embed = new Discord.MessageEmbed()
+      .setColor("RANDOM") // Tired of choosing the embed colors? Just type "RANDOM" on it!
+      .addField("⌛ Latency", `**${message.createdTimestamp -  message.createdTimestamp}ms**`)
+      .addField("💓 API", `**${Math.floor(client.ws.ping)}ms**`) // Use "client.ping" if your Discord.js is < 1.15.1 --- Use "client.ws.ping" if your Discord.js is > 12.0.0
+       
+       setTimeout(()=>{
+         msg.edit(`🏓 Pong!`, embed)
+    },1500)
+  })
+    } catch (error) {
+      return message.channel.send(`Something went wrong: ${error.message}`);
+      // Restart the bot as usual.
+    }
+  } // easy way.
 
   if (message.content === 'invites') {
         var userId = message.author.id;
@@ -131,7 +146,7 @@ client.on("message", (message) => {
     }
 
   
-  if (message.content==(eprefix + "help")||message.content==(eprefix + "commands")) {
+  if (message.content==(eprefix + "help")||message.content==(eprefix + "commands")||message.content==(eprefix + "about")) {
     const embed = new Discord.MessageEmbed()
         .setThumbnail(client.user.displayAvatarURL)
         .setTitle('__Mittz Information__')
@@ -186,7 +201,7 @@ if (lowercase==("mittz")||message.mentions.has(client.user)) {
   var args = message.content.split(" ").slice(1);
 if (message.content.startsWith(eprefix + "kawaii")) {  
   var registered = false;
-  if (!servers.servers.includes(message.author.id)){return message.channel.send("Please setup kawaii counter with `"+eprefix+" kawaii self setup`")}
+  if (!server.servers.includes(message.author.id)){return message.channel.send("Please setup kawaii counter with `"+eprefix+"kawaii self setup`")}
   const user = getUserFromMention(args[1]);
   if (args[1]) {
 		if (!user) {
@@ -195,19 +210,19 @@ if (message.content.startsWith(eprefix + "kawaii")) {
 		var person = user;
 	} else
 var person = message.author;
-  if (servers.servers.includes(message.guild.id)){var registered = true;}
-if (!servers.servers.includes(person.id)){return message.channel.send(`Please ask the user @ ${person.username} to setup kawaii counter with `+"`"+eprefix+` kawaii self setup`+"`")}
+  if (server.servers.includes(message.guild.id)){var registered = true;}
+if (!server.profiles.includes(person.id)){return message.channel.send(`Please ask the user @ ${person.username} to setup kawaii counter with `+"`"+eprefix+` kawaii self setup`+"`")}
 var embed = new Discord.MessageEmbed()
         .setThumbnail(client.user.displayAvatarURL)
         .setTitle(`__Guild and ${person.username}'s kawaii leaderboard__`)
         .setDescription(`Here are the scores and validity`)
         .setColor(config.color)
         .addField(`__Guild__`, ".", true)
-        .addField(`__owo's__`, servers.owo[message.guild.id], true)
-        .addField(`__uwu's__`, servers.uwu[message.guild.id], true)
+        .addField(`__owo's__`, server.owo[message.guild.id], true)
+        .addField(`__uwu's__`, server.uwu[message.guild.id], true)
         .addField(`__Self__`, ".", true)
-        .addField(`__owo's__`, servers.owo[person.id], true)
-        .addField(`__uwu's__`, servers.uwu[person.id], true)
+        .addField(`__owo's__`, server.owo[person.id], true)
+        .addField(`__uwu's__`, server.uwu[person.id], true)
         .addField(`__registered__`, registered, true)
         .setFooter(`${client.user.username} | By: Orago`)
     message.channel.send(embed)
@@ -215,61 +230,53 @@ var embed = new Discord.MessageEmbed()
   
 //if (message.content==("what does aouab want")) {message.channel.send("to suck the last unsucked cock.") }
 if (message.content.includes("owo")) {
-  if (!servers.servers.includes(message.guild.id)) return message.channel.send("Please ask the server owner to setup owo's with `"+eprefix+"kawaii guild setup`");
-  if (!servers.servers.includes(message.author.id)) return message.channel.send("Please ask the server owner to setup owo's with `"+eprefix+"self setup`");
-servers.owo[message.guild.id]=servers.owo[message.guild.id]+1;
-         fs.writeFileSync("kawaii.json", JSON.stringify(servers));
-  servers.owo[message.author.id]=servers.owo[message.author.id]+1;
-         fs.writeFileSync("kawaii.json", JSON.stringify(servers));
+  if (!server.servers.includes(message.guild.id)) return message.channel.send("Please ask the server owner to setup owo's with `"+eprefix+"guild setup`");
+  if (!server.profiles.includes(message.author.id)) return message.channel.send("Please setup owo's with `"+eprefix+"self setup`");
+server.owo[message.guild.id]=server.owo[message.guild.id]+1;
+  server.owo[message.author.id]=server.owo[message.author.id]+1;
+         fs.writeFileSync("kawaii.json", JSON.stringify(server, null, 2));
 }
   
 if (message.content.includes("uwu")) {
-   if (!servers.servers.includes(message.guild.id)) return message.channel.send("Please ask the server owner to setup uwu's with `"+eprefix+"kawaii guild setup`");
-  if (!servers.servers.includes(message.author.id)) return message.channel.send("Please ask the server owner to setup uwu's with `"+eprefix+"self setup`");
-servers.uwu[message.guild.id]=servers.uwu[message.guild.id]+1;
-         fs.writeFileSync("kawaii.json", JSON.stringify(servers));
-  servers.uwu[message.author.id]=servers.uwu[message.author.id]+1;
-         fs.writeFileSync("kawaii.json", JSON.stringify(servers));
+   if (!server.servers.includes(message.guild.id)) return message.channel.send("Please ask the server owner to setup uwu's with `"+eprefix+"guild setup`");
+  if (!server.profiles.includes(message.author.id)) return message.channel.send("Please setup uwu's with `"+eprefix+"self setup`");
+server.uwu[message.guild.id]=server.uwu[message.guild.id]+1;
+  server.uwu[message.author.id]=server.uwu[message.author.id]+1;
+         fs.writeFileSync("kawaii.json", JSON.stringify(server, null, 2));
 }
   
   if (message.content==(eprefix+"self setup")) {
-    if (!servers.servers.includes(message.guild.id)) return message.channel.send("Please ask the server owner to setup kawaii counter with `"+eprefix+"kawaii guild setup`");
-   if (servers.servers.includes(message.author.id)) return message.channel.send(":closed_lock_with_key: **Whoops!** You already have a profile!");
+    if (!server.servers.includes(message.guild.id)) return message.channel.send("Please ask the server owner to setup kawaii counter with `"+eprefix+"guild setup`");
+   if (server.profiles.includes(message.author.id)) return message.channel.send(":closed_lock_with_key: **Whoops!** You already have a profile!");
   message.channel.send("**:unlock: Beep Boop Beep! We're setting up your profile!**").then(msg=>{
-       servers.servers.push(message.guild.id)
-        servers.owo[message.author.id]=0;
-        servers.coins[message.author.id]=0;
-        servers.uwu[message.author.id]=0;
-       fs.writeFileSync("kawaii.json", JSON.stringify(servers));
+       server.profiles.push(message.author.id)
+        server.owo[message.author.id]=0;
+        server.coins[message.author.id]=0;
+        server.uwu[message.author.id]=0;
+        server.background[message.author.id] = "https://convertingcolors.com/plain-2C2F33.svg"
+        server.description[message.author.id] = 'No Description Set'
+        server.color[message.author.id] = "#ffffff"
+        server.badges[message.author.id]=[]
+        server.xp[message.author.id]=0
+       fs.writeFileSync("kawaii.json", JSON.stringify(server, null, 2));
        setTimeout(()=>{
          msg.edit(":lock: **Your user has been added.** View the leaderboard with `kawaii leaderboard`.")
     },1500)
   })
 }
-  if (message.content==(eprefix+"kawaii guild setup")) {
-   if (servers.servers.includes(message.guild.id)) return message.channel.send(":closed_lock_with_key: **Whoops!** This guild is already set up!");
+  if (message.content==(eprefix+"guild setup")) {
+   if (server.servers.includes(message.guild.id)) return message.channel.send(":closed_lock_with_key: **Whoops!** This guild is already set up!");
   message.channel.send("**:unlock: Beep Boop Beep! We're setting up your profile!**").then(msg=>{
-       servers.servers.push(message.guild.id)
-        servers.owo[message.guild.id]=0;
-        servers.uwu[message.guild.id]=0;
-       fs.writeFileSync("kawaii.json", JSON.stringify(servers));
+       server.servers.push(message.guild.id)
+        server.owo[message.guild.id]=0;
+        server.uwu[message.guild.id]=0;
+       fs.writeFileSync("kawaii.json", JSON.stringify(server, null, 2));
        setTimeout(()=>{
          msg.edit(":lock: **Your guild has been added.** View the leaderboard with `kawaii leaderboard`.")
     },1500)
   })
-}
-  if(message.content==(eprefix + "collect")){
-          if(!message.channel.chest||!message.channel.chest.opened){
-              //Chest exists and unopened, do something with the chest value "message.channel.chest.value", for example:
-              message.member.money+=message.channel.chest.value;
-              //Then at the end:
-              message.channel.chest.opened=true;
-            message.channel.send("done")
-          } else {
-              //Chest doesn't exists or already opened!
-              message.channel.send("OOF");
-          }
-      }
+}  
+  
 if (message.content==(eprefix + "server")) {
   var embed = new Discord.MessageEmbed()
       .setAuthor(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
@@ -328,7 +335,117 @@ var person = message.author;
 message.channel.send(embed);
 }
   
-if (message.content.startsWith(eprefix+"createchannel")) {
+
+  
+  if (message.content.startsWith(eprefix+"play")) {
+  if(message.guild.id==396838715894530068&&(message.channel.id!=741545026055569438)){ return;}
+  const voiceChannel = message.member.voice.channel;
+  if (!voiceChannel) {return message.reply('please join a voice channel first!');}  
+    if (voiceChannel && voiceChannel.id !== "741450921690791996") {return message.channel.send("please join the music channel")}
+  if (message.channel.type !== 'text') return;
+  const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
+const type = args.join(' '); // Amount of messages which should be deleted
+if (!type) return message.reply('The currently available radio\'s are lofi, vaporwave, jpop, and kpop.\nEx. '+eprefix+' play lofi'); // Checks if the `amount` parameter is given
+if (type == 'lofi') {message.reply('you are now listening to the '+type+' radio.');
+voiceChannel.join().then(connection => {
+			//const stream = ytdl('http://hyades.shoutca.st:8043/stream', { filter: 'audioonly' });
+			const dispatcher = connection.play('http://hyades.shoutca.st:8043/stream', { volume: 1 });//connection.play(stream);
+			dispatcher.on('finish', () => voiceChannel.leave());
+		});
+} // Checks if the `amount` integer is bigger than 100
+else if (type == 'vaporwave') {message.reply('you are now listening to the '+type+' radio.');
+voiceChannel.join().then(connection => {
+			//const stream = ytdl('http://hyades.shoutca.st:8043/stream', { filter: 'audioonly' });
+			const dispatcher = connection.play('http://radio.plaza.one/mp3', { volume: 1 });//connection.play(stream);
+			dispatcher.on('finish', () => voiceChannel.leave());
+		});
+} // Checks if the `amount` integer is smaller than 1
+else if (type == 'jpop') {message.reply('you are now listening to the '+type+' radio. This station is hosted by https://listen.moe/');
+voiceChannel.join().then(connection => {
+			//const stream = ytdl('http://hyades.shoutca.st:8043/stream', { filter: 'audioonly' });
+			const dispatcher = connection.play('https://listen.moe/fallback', { volume: 1 });//connection.play(stream);
+			dispatcher.on('finish', () => voiceChannel.leave());
+		});
+} // Checks if the `amount` integer is smaller than 1
+else if (type == 'kpop') {message.reply('you are now listening to the '+type+' radio. This station is hosted by https://listen.moe/');
+voiceChannel.join().then(connection => {
+			//const stream = ytdl('http://hyades.shoutca.st:8043/stream', { filter: 'audioonly' });
+			const dispatcher = connection.play('https://listen.moe/kpop/fallback', { volume: 1 });//connection.play(stream);
+			dispatcher.on('finish', () => voiceChannel.leave());
+		});
+}
+  else message.reply('There is no such radio with this name');
+  }
+  
+  
+if (message.content === eprefix+'lofi') {
+		
+		
+		
+		
+	}
+
+  
+  
+
+  
+  if (message.content === eprefix+'permissions') {
+ var embed = new Discord.MessageEmbed()
+      .setAuthor(`${message.author.username} (${message.author.id})`)
+        .setThumbnail(message.author.avatarURL())
+        .addField('Administrator', message.member.hasPermission('ADMINISTRATOR'),true)
+        .addField('Ban Members', message.member.hasPermission('BAN_MEMBERS'),true)
+        .addField('Kick Members', message.member.hasPermission('KICK_MEMBERS'),true)
+        .addField('Manage Channels', message.member.hasPermission('MANAGE_CHANNELS'),true)
+        .addField('Manage Guild', message.member.hasPermission('MANAGE_GUILD'),true)
+        .addField('Manage Messages', message.member.hasPermission('MANAGE_MESSAGES'),true)
+        .addField('Manage Nicknames', message.member.hasPermission('MANAGE_NICKNAMES'),true)
+        .addField('Manage Roles', message.member.hasPermission('MANAGE_ROLES'),true)
+        .addField('Manage Webhooks', message.member.hasPermission('MANAGE_WEBHOOKS'),true)
+        .addField('Manage Emojis', message.member.hasPermission('MANAGE_EMOJIS'),true)
+        .addField('Change Nickname', message.member.hasPermission('CHANGE_NICKNAME'),true)
+        .addField('Stream', message.member.hasPermission('STREAM'),true)
+        .addField('Connect', message.member.hasPermission('CONNECT'),true)
+        .addField('Speak', message.member.hasPermission('SPEAK'),true)
+        .addField('Priority Speaker', message.member.hasPermission('PRIORITY_SPEAKER'),true)
+        .addField('Mute Members', message.member.hasPermission('MUTE_MEMBERS'),true)
+        .addField('Deafen Members', message.member.hasPermission('DEAFEN_MEMBERS'),true)
+        .addField('Move Members', message.member.hasPermission('MOVE_MEMBERS'),true)
+        .addField('Use VAD (voice activity direction)', message.member.hasPermission('USE_VAD'),true)
+        .addField('Add Reactions', message.member.hasPermission('ADD_REACTIONS'),true)
+        .addField('Send Messages', message.member.hasPermission('SEND_MESSAGES'),true)
+        .addField('Send TTS Messages', message.member.hasPermission('SEND_TTS_MESSAGES'),true)
+        .addField('Create Instant Invite', message.member.hasPermission('CREATE_INSTANT_INVITE'),true)
+        .addField('Embed Links', message.member.hasPermission('EMBED_LINKS'),true)
+        .addField('Attach Files', message.member.hasPermission('ATTACH_FILES'),true)
+        .addField('Read Message History', message.member.hasPermission('READ_MESSAGE_HISTORY'),true)
+        .addField('Mention Everyone', message.member.hasPermission('MENTION_EVERYONE'),true)
+        .addField('Use External Emojis', message.member.hasPermission('USE_EXTERNAL_EMOJIS'),true)
+        .addField('View Channel', message.member.hasPermission('VIEW_CHANNEL'),true)
+        .addField('View Audit Log', message.member.hasPermission('VIEW_AUDIT_LOG'),true)
+        .addField('View Guild Insights', message.member.hasPermission('VIEW_GUILD_INSIGHTS'),true)
+        .setColor('#5CC5FF')
+        //.setDescription(`hey`);
+        .setFooter(client.name, "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664")
+    message.channel.send(embed)
+  }
+//Owner Commands
+if (message.member.roles.cache.find(r => r.name === "🐅 - Moderator")||message.member.roles.cache.find(r => r.name === "🐆 - Server Moderator")||message.member.hasPermission('ADMINISTRATOR')||message.author.id ===owner){
+  if (lowercase==("restart")) {
+    setTimeout(()=>{
+         process.exit();
+    },5500)
+  }
+  
+  if (message.content.startsWith(eprefix+"createrole")) {
+  const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
+const name = args.join(' '); // Amount of messages which should be deleted
+if (!name) return message.reply('You haven\'t given an amount of messages which should be deleted!'); // Checks if the `amount` parameter is given
+message.guild.roles.create({ data: { name: name, permissions: ['READ_MESSAGE_HISTORY', 'SEND_MESSAGES','VIEW_CHANNEL'] } });
+message.reply(`Role "`+name+`" has been created !`)
+}
+
+  if (message.content.startsWith(eprefix+"createchannel")) {
     const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
     const text = args.join(' '); // Amount of messages which should be deleted
     if (!text) {
@@ -345,32 +462,6 @@ if (message.content.startsWith(eprefix+"createchannel")) {
 })
     message.channel.send(`Text channel created ${text}.`);}
   }
-  
-  
-
-  
-  
-  if (message.content.startsWith(eprefix+"cat")) {
-    
-    const args = message.content.split(' ').slice(2); // All arguments behind the command name with the prefix
-const text = args.join(' '); // Amount of messages which should be deleted
-    
-    if (!text) {let embed = new Discord.MessageEmbed()
-        .setAuthor(message.member.user.tag, message.member.user.avatarURL)
-        .setColor(0xdd9323)
-        .setImage('https://cataas.com/cat/says/%20');
-
-    message.channel.send(embed);}// Checks if the `amount` parameter is given
-    else if(text){let embed = new Discord.MessageEmbed()
-        .setAuthor(message.member.user.tag, message.member.user.avatarURL)
-        .setColor(0xdd9323)
-        .setImage('https://cataas.com/cat/says/'+text.replace(" ", "%20"));
-    message.channel.send(embed);}
-  }
-  
-  
-//Owner Commands
-if (message.member.roles.cache.find(r => r.name === "🐅 - Moderator")||message.member.roles.cache.find(r => r.name === "🐆 - Server Moderator")||message.member.roles.cache.find(r => r.name === "🐯 - Administrator")||message.author.id ===owner){
   
     if (message.content === eprefix+'leave-server') {
       var yes = '👍';
@@ -394,7 +485,6 @@ if (message.member.roles.cache.find(r => r.name === "🐅 - Moderator")||message
                             }).catch(() => {
                                     message.channel.send('No reaction after 30 seconds, operation canceled');
                             });
-
     }
   
   if (message.content.startsWith(eprefix+"clear")) {
@@ -434,12 +524,13 @@ if (!message.guild) return;
                             { max: 1, time: 30000 }).then(collected => {
                                     if (collected.first().emoji.name == yes) {
                                             member.kick('Optional reason that will display in the audit logs').then(() => {
+                                              user.send("You have been kicked by <@"+message.author.id+">");
                                       message.reply(`Successfully kicked ${user.tag}`);
                                     }).catch(err => {
                                       message.reply('I was unable to kick this member');
+                                      user.send("<@"+message.author.id+"> has attempted to kick you");
                                       console.error(err);
-                                    });
-                                            
+                                    });         
                                     }
                                     else
                                             message.channel.send('Operation canceled.');
@@ -470,7 +561,7 @@ if (!message.guild) return;
 
   client.on("guildMemberRemove", function(member){
     const channel = member.guild.channels.cache.find(ch => ch.name === 'member-logs');
-    channel.send(`Goodbye, ${member}..`);
+    client.message.channel.send(`Goodbye, ${member}..`);
 });
 client.on('guildMemberAdd', async member => {
   // Send the message to a designated channel on a server:
@@ -516,10 +607,11 @@ client.on('inviteCreate', async invite => guildInvites.set(invite.guild.id, awai
 
 client.on("guildCreate", guild => {
   // This event triggers when the bot joins a guild.
+  const channel = guild.channels.cache.find(channel => channel.type === 'text' && channel.permissionsFor(guild.me).has('SEND_MESSAGES'))
+  channel.send("Thank you for inviting me, I am hoping to help whenever I can.")
   console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
    client.user.setPresence({ activity: { name: `${eprefix} help | ${client.guilds.cache.size} guilds`,type: "STREAMING",url:"https://www.youtube.com/watch?v=P4i-VYcrEuc"}, status: 'idle'});
 });
-
 
 client.on("guildDelete", guild => {
   // this event triggers when the bot is removed from a guild.
@@ -532,7 +624,7 @@ client.on("ready", async () => {
   //client.user.setUsername("Mittz");
   client.user.setPresence({ activity: { name: `${eprefix} help | ${client.guilds.cache.size} guilds`,type: "STREAMING",url:"https://www.youtube.com/watch?v=P4i-VYcrEuc"}, status: 'idle'});
   //client.user.setActivity(`${sprefix} help | ${client.guilds.cache.size} guilds`, { type: 'STREAMING',url:"https://www.youtube.com/watch?v=P4i-VYcrEuc" });
-  const interval=600; //in seconds
+  const interval=500; //in seconds
   setInterval(RandomLoot,interval*1000);
   client.guilds.cache.forEach(guild => {
         guild.fetchInvites()
@@ -544,21 +636,43 @@ client.on("ready", async () => {
 
 function RandomLoot(){
 //Chest
-  var ch=client.channels.cache.get("396838715894530070");
-      //var ch=client.guild.channels.cache.find(channel => channel.name === "general");
-      ch.send("A chest has been dropped!");
+  var ch=client.guild.channels.cache.find(ch => ch.name === '〔🔩｜bot-commands〕');/*client.channels.cache.get("396838715894530070");*/
   
+  number1 = Math.floor(Math.random() * 1000) + 1;
+  number2 = Math.floor(Math.random() * 1000) + 1;
+      //var ch=client.guild.channels.cache.find(channel => channel.name === "general");Math.floor(Math.random() * 10) + 1;
+      //ch.send("A kitten has stopped by! use `"+eprefix+" collect` to collect the cuteness");
+        
+        ch.send("what is "+number1+'+'+number2+'?');
       //I bind the chest variable to the channel object
       ch.chest = {
           value:100, //You can change this one
           opened:false
       }
 
-      var disappearsAfter=60; //In seconds
+      var disappearsAfter=120; //In seconds
       setTimeout(function(){
           ch.chest.opened=false;
           ch.send("Oh no, disappeared!")
       },disappearsAfter*1000);      
 
 }
+
+client.on("message", (message) => {
+console.log(Number(number1)+Number(number2));
+  if(message.content==(Number(number1)+Number(number2))){
+          if(!message.channel.chest||!message.channel.chest.opened){
+              //Chest exists and unopened, do something with the chest value "message.channel.chest.value", for example:
+              message.member.money+=message.channel.chest.value;
+              //Then at the end:
+              message.channel.chest.opened=true;
+            
+            message.channel.send("done")
+            
+          } else {
+              //Chest doesn't exists or already opened!
+              message.channel.send("OOF");
+          }
+      }
+});
 client.login(process.env.main_token);

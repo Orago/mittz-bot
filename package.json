@@ -17,7 +17,8 @@
     "moment": "^2.27.0",
     "moment-duration-format": "^2.2.2",
     "getyoutubesubscriber": "^0.1.4",
-    "jimp": "^0.10.0"
+    "ytdl-core": "^3.2.0",
+    "@discordjs/opus": "^0.3.2"
   },
   "engines": {
     "node": "12.x"
