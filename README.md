@@ -1,7 +1,7 @@
 <img src="https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png" alt="Vanilla Repo Logo" height=250 width=250/>
 
 [![](https://img.shields.io/github/license/vanilla/vanilla.svg)](https://github.com/vanilla/vanilla/blob/master/LICENSE)
-[![CircleCI](https://circleci.com/gh/orago/mittz-bot/tree/master.svg?style=svg)](https://circleci.com/gh/vanilla/vanilla/tree/master)
+[![CircleCI](https://circleci.com/gh/orago/mittz-bot/tree/master.svg?style=svg)](https://circleci.com/gh/orago/mittz-bot/tree/master)
 ![](https://img.shields.io/github/commits-since/vanilla/vanilla/Vanilla_3.3.svg)
 
 ## Howdy, Stranger!
