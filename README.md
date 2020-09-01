@@ -4,13 +4,11 @@
 <!--[![CircleCI](https://circleci.com/gh/orago/mittz-bot/tree/master.svg?style=svg)](https://circleci.com/gh/orago/mittz-bot/tree/master)-->
 ![](https://img.shields.io/github/commits-since/vanilla/vanilla/Vanilla_3.3.svg)
 
-## Howdy, Stranger!
+## Hello!
 
-Vanilla was born out of the desire to create flexible, customizable, and downright entertaining
-community solutions. Vanilla has been used to power tens of thousands of community forums around the world
-and we couldn't be happier if you've decided to use Vanilla to grow yours.
+Mittz bot was created with the intentions of supporting My discord server,[![](https://discord.gg/zzthRpu)](Mittenz server), but it had come to my attention that it can amount up to way more than just a private use bot
 
-| Moderation                                                                                                         | Rich Editor                                                                                                   | Dashboard                                                                                                     |
+| Moderation                                                                                                         | modifiable                                                                                                   | Fun                                                                                                     |
 | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | ![image](https://user-images.githubusercontent.com/1770056/51584623-2a9e5480-1ea4-11e9-9650-b37b0d6da609.png) | ![image](https://user-images.githubusercontent.com/1770056/51584966-8fa67a00-1ea5-11e9-8fe2-1b110035a025.png) | ![image](https://user-images.githubusercontent.com/1770056/51422470-00cfef80-1b7d-11e9-9d3f-25ada61cecea.png) |
 
