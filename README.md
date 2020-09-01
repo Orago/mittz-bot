@@ -10,7 +10,7 @@ Vanilla was born out of the desire to create flexible, customizable, and downrig
 community solutions. Vanilla has been used to power tens of thousands of community forums around the world
 and we couldn't be happier if you've decided to use Vanilla to grow yours.
 
-| Forum                                                                                                         | Rich Editor                                                                                                   | Dashboard                                                                                                     |
+| Moderation                                                                                                         | Rich Editor                                                                                                   | Dashboard                                                                                                     |
 | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | ![image](https://user-images.githubusercontent.com/1770056/51584623-2a9e5480-1ea4-11e9-9650-b37b0d6da609.png) | ![image](https://user-images.githubusercontent.com/1770056/51584966-8fa67a00-1ea5-11e9-8fe2-1b110035a025.png) | ![image](https://user-images.githubusercontent.com/1770056/51422470-00cfef80-1b7d-11e9-9d3f-25ada61cecea.png) |
 
