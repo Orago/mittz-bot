@@ -2,7 +2,7 @@
 
 [![](https://img.shields.io/github/license/vanilla/vanilla.svg)](https://github.com/vanilla/vanilla/blob/master/LICENSE)
 <!--[![CircleCI](https://circleci.com/gh/orago/mittz-bot/tree/master.svg?style=svg)](https://circleci.com/gh/orago/mittz-bot/tree/master)-->
-![](https://img.shields.io/github/commits-since/vanilla/vanilla/Vanilla_3.3.svg)
+![](https://img.shields.io/github/commits-since/orago/mittz-bot/Vanilla_3.3.svg)
 
 ## Hello!
 
