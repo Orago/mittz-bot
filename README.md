@@ -1,113 +1,88 @@
-<img src="https://user-images.githubusercontent.com/1770056/51494323-414e8980-1d86-11e9-933c-e647b5ea49f4.png" alt="Vanilla Repo Logo" width=500/>
+<img src="https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png" alt="Mittenz Logo" height=250 width=250/>
 
-[![](https://img.shields.io/github/license/vanilla/vanilla.svg)](https://github.com/vanilla/vanilla/blob/master/LICENSE)
-[![CircleCI](https://circleci.com/gh/vanilla/vanilla/tree/master.svg?style=svg)](https://circleci.com/gh/vanilla/vanilla/tree/master)
-![](https://img.shields.io/github/commits-since/vanilla/vanilla/Vanilla_3.3.svg)
+[![](https://img.shields.io/github/license/orago/mittz-bot.svg)](https://github.com/orago/mittz-bot/blob/master/LICENSE)
+![](https://img.shields.io/github/commits-since/orago/mittz-bot/master.svg)
 
-## Howdy, Stranger!
+## Hello!
 
-Vanilla was born out of the desire to create flexible, customizable, and downright entertaining
-community solutions. Vanilla has been used to power tens of thousands of community forums around the world
-and we couldn't be happier if you've decided to use Vanilla to grow yours.
+Mittz bot was created with the intentions of supporting My [Discord Server](https://discord.gg/zzthRpu), but it had come to my attention that it can amount up to way more than just a private use bot
 
-| Forum                                                                                                         | Rich Editor                                                                                                   | Dashboard                                                                                                     |
+| Moderation                                                                                                         | modifiable                                                                                                   | Fun                                                                                                     |
 | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | ![image](https://user-images.githubusercontent.com/1770056/51584623-2a9e5480-1ea4-11e9-9650-b37b0d6da609.png) | ![image](https://user-images.githubusercontent.com/1770056/51584966-8fa67a00-1ea5-11e9-8fe2-1b110035a025.png) | ![image](https://user-images.githubusercontent.com/1770056/51422470-00cfef80-1b7d-11e9-9d3f-25ada61cecea.png) |
 
-Every community is unique. Vanilla is a finely-crafted platform on which designers and developers
-can build a custom-tailored environment that meets your community's particular needs.
+Every community is unique. Mittz Bot is here to protect, moderator, and possibly entertain your community.
 
-## 5 reasons Vanilla is the sweetest forum
+## Why Mittz-Bot is one of the better of the bunch.
 
-1. We've reimagined traditional forums for mass-appeal.
-1. Our theming flexibility is second-to-none.
-1. Impossibly good integration options with single sign-ons and embedding.
+1. Custom Server Moderation with swear filters, custom welcome, and command channels.
+1. I can also create profile cards with ease.
+1. Simple economy for users to interact with.
 1. The best tools available for community management.
 1. Curated features with great plugin options, not the kitchen sink.
 
 ## Installation
 
--   [Local Installation](https://github.com/vanilla/vanilla-docker)
--   [Our Cloud Hosting Solution](https://vanillaforums.com/en/plans/)
--   [The Basics of Self Hosting ](https://docs.vanillaforums.com/developer/installation/self-hosting/)
+<div align="center"><a href="https://heroku.com/deploy?template=https://github.com/orago/mittz-bot" target="_blank"><img src="https://www.herokucdn.com/deploy/button.svg"></a></div>
 
-_Upgrading from an earlier version of Vanilla? See [our upgrade notes](https://docs.vanillaforums.com/developer/installation/self-hosting/#upgrading)._
-
-## Contributing
-
--   Local Development - [Environment](https://github.com/vanilla/vanilla-docker), [Configuration & Debugging](https://docs.vanillaforums.com/developer/tools/environment/) & [Build Tools](https://docs.vanillaforums.com/developer/tools/building-frontend/).
--   [Running Unit tests](https://github.com/vanilla/vanilla/blob/master/tests/README.md).
--   Coding Standard - [PHP](https://docs.vanillaforums.com/developer/contributing/coding-standard-php/), [Typescript](https://docs.vanillaforums.com/developer/contributing/coding-standard-typescript/), [Database Naming](https://docs.vanillaforums.com/developer/contributing/database-naming-standards/)
--   [Writing Pull Requests](https://docs.vanillaforums.com/developer/contributing/pull-requests/)
--   [Contributing Guidelines](https://github.com/vanilla/vanilla/blob/master/CONTRIBUTING.md)
--   [Contributing to Translations](https://github.com/vanilla/locales/blob/master/README.md)
 
 ## Getting Help
 
--   [Troubleshooting upgrades & installs](http://docs.vanillaforums.com/developers/troubleshooting/)
--   [Official documentation](http://docs.vanillaforums.com)
--   [Vanilla community forums](https://open.vanillaforums.com/discussions)
--   [Official cloud hosting with professional support & migration services](https://vanillaforums.com/plans)
--   [File a detailed bug report](https://github.com/vanilla/vanilla/issues/new?template=bug_report.md)
--   [Plan out a new feature](https://github.com/vanilla/vanilla/issues/new?template=new_feature.md)
+-   [Support Server](http://discord.gg/zzthRpu)
+-   [Official documentation](https://mittenscat.herokuapp.com)
 
 ## Reporting Security Issues
 
-Please disclose security issues responsibly by emailing support@vanillaforums.com with a full description or join our [bug bounty program](https://hackerone.com/vanilla). We cannot award bounties outside that program.
+Please disclose security issues responsibly by emailing Change@later.com with a full description.
 
 We'll work on releasing an updated version as quickly as possible.
-Please do not email non-security issues; use the [issue tracker](https://github.com/vanilla/vanilla/issues) instead.
+Please do not email non-security issues; use the [issue tracker](https://github.com/Orago/mittz-bot/issues) instead.
 
 ## Releases & Branches
 
 The `master` branch is considered a stable branch capable of being released at any time. Reviewed, stable changes land against `master` via pull-request.
 
-Our open source release branches are named by version number, e.g. `release/3.3`. All open source releases (included pre-releases) are tagged.
-
-The `release/VERSION+BUILD` branches are production-ready branches for our cloud product but are not yet vetted for open source release (alternate platforms & configurations).
-
 |                     | Active Release |
 | ------------------- | -------------- |
-| **Version**         | `3.3`          |
-| **Initial Release** | 28 October 2019 |
-| **Last Updated**    | 28 October 2019 |
+| **Version**         | `1.5`          |
+| **Initial Release** | 4 January 2019 |
+| **Last Updated**    | 28 October 2020 |
 | **EOL**             | Next release   |
 
-Refer to the [OSS changelog](https://docs.vanillaforums.com/developer/changelog/) and the [Vanilla Cloud changelog](https://docs.vanillaforums.com/help/releases/) to track active changes between releases.
+Refer to the [Github changelog](https://github.com/Orago/mittz-bot/commits/master) and the [Mittens Project Website](https://mittenscat.herokuapp.com/changes/bot/#mittz) to track active changes between releases.
 
 ## Building Releases
 
-Vanilla releases are built using [Phing](https://www.phing.info/) to create a pre-built deploy-ready copies of Vanilla. To build these run the following in the root of the repository.
+Mittz Bot releases are built using [Node JS](https://http://nodejs.dev/) to create a pre-built deploy-ready copies of Mittz Bot. To build these run the following in the root of the repository.
 
 ```
-./bin/release
+$ node start
 ```
 
 The following dependenies are all required for building a release.
 
 -   `node`
--   `yarn`
--   `php`
--   `composer`
+
+The following packages are all required for building a release.
+
+-   `express`
+-   `discord.js`
+-   `canvas`
+-   `fs (file system)`
+-   `moment`
+-   `moment-duration-format`
+-   `getyoutubesubscriber`
+-   `tinyurl`
 
 ## License & Legal Stuff
 
-Vanilla is free, open source software distributed under the license `gpl-2.0-only`.
+Mittz-Bot is free, open source software distributed under the license `Creative Commons Zero v1.0 Universal`.
 We accept and encourage contributions from our community and sometimes give hugs in return.
 
-Copyright © 2009-2019 Vanilla Forums Inc.
+Copyright © 2019-2020 Mittz Bot
 
-> Vanilla Forums is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
-> as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
->
-> Vanilla Forums is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-> without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
->
-> See the GNU General Public License for more details. You should have received a copy of the GNU General Public License
-> along with Vanilla Forums.
->
-> If not, see <http://www.gnu.org/licenses/>.
-> Contact Vanilla Forums Inc. at support [at] vanillaforums [dot] com
+
+> See the full license at <Br><https://github.com/Orago/mittz-bot/blob/master/LICENSE>.
 
 ## Bonk!
 

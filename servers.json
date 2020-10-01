@@ -1,29 +1,48 @@
 {
-  "background":{
+  "swears":["poo", "innapropriate","fun"],
+  "background": {
 
   },
-  "description":{
+  "description": {
 
   },
-  "color":{
+  "color": {
 
   },
-  "badges":{
+  "prefix": {
 
   },
-  "owo":{
+  "badges": {
 
   },
-  "uwu":{
+  "owo": {
 
   },
-  "coins":{
+  "uwu": {
 
   },
-  "servers":[
+  "coins": {
+
+  },
+  "xp": {
+
+  },
+  "filter": {
+
+  },
+  "logschannel": {
+
+  },
+  "greetingschannel": {
+
+  },
+  "commandschannel": {
+
+  },
+  "servers": [
 
   ],
-  "profiles":[
-    
+  "profiles": [
+
   ]
 }
