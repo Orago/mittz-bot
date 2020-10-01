@@ -6,7 +6,7 @@
 
 ## Hello!
 
-Mittz bot was created with the intentions of supporting My discord server,[![](https://discord.gg/zzthRpu)](Mittenz server), but it had come to my attention that it can amount up to way more than just a private use bot
+Mittz bot was created with the intentions of supporting My [Discord Server](https://discord.gg/zzthRpu), but it had come to my attention that it can amount up to way more than just a private use bot
 
 | Moderation                                                                                                         | modifiable                                                                                                   | Fun                                                                                                     |
 | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -15,30 +15,20 @@ Mittz bot was created with the intentions of supporting My discord server,[![](h
 Every community is unique. Vanilla is a finely-crafted platform on which designers and developers
 can build a custom-tailored environment that meets your community's particular needs.
 
-## 5 reasons Vanilla is the sweetest forum
+## Why Mittz-Bot is one of the better of the bunch.
 
-1. We've reimagined traditional forums for mass-appeal.
-1. Our theming flexibility is second-to-none.
-1. Impossibly good integration options with single sign-ons and embedding.
+1. Custom Server Moderation with swear filters, custom welcome, and command channels.
+1. I can also create profile cards with ease.
+1. Simple economy for users to interact with.
 1. The best tools available for community management.
 1. Curated features with great plugin options, not the kitchen sink.
 
 ## Installation
 
--   [Local Installation](https://github.com/vanilla/vanilla-docker)
--   [Our Cloud Hosting Solution](https://vanillaforums.com/en/plans/)
--   [The Basics of Self Hosting ](https://docs.vanillaforums.com/developer/installation/self-hosting/)
+<div align="center"><a href="https://heroku.com/deploy?template=https://github.com/orago/mittz-bot" target="_blank"><img src="https://www.herokucdn.com/deploy/button.svg"></a></div>
 
-_Upgrading from an earlier version of Vanilla? See [our upgrade notes](https://docs.vanillaforums.com/developer/installation/self-hosting/#upgrading)._
 
-## Contributing
-
--   Local Development - [Environment](https://github.com/vanilla/vanilla-docker), [Configuration & Debugging](https://docs.vanillaforums.com/developer/tools/environment/) & [Build Tools](https://docs.vanillaforums.com/developer/tools/building-frontend/).
--   [Running Unit tests](https://github.com/vanilla/vanilla/blob/master/tests/README.md).
--   Coding Standard - [PHP](https://docs.vanillaforums.com/developer/contributing/coding-standard-php/), [Typescript](https://docs.vanillaforums.com/developer/contributing/coding-standard-typescript/), [Database Naming](https://docs.vanillaforums.com/developer/contributing/database-naming-standards/)
--   [Writing Pull Requests](https://docs.vanillaforums.com/developer/contributing/pull-requests/)
--   [Contributing Guidelines](https://github.com/vanilla/vanilla/blob/master/CONTRIBUTING.md)
--   [Contributing to Translations](https://github.com/vanilla/locales/blob/master/README.md)
+<!--_Upgrading from an earlier version of Vanilla? See [our upgrade notes](https://docs.vanillaforums.com/developer/installation/self-hosting/#upgrading)._-->
 
 ## Getting Help
 
@@ -59,10 +49,6 @@ Please do not email non-security issues; use the [issue tracker](https://github.
 ## Releases & Branches
 
 The `master` branch is considered a stable branch capable of being released at any time. Reviewed, stable changes land against `master` via pull-request.
-
-Our open source release branches are named by version number, e.g. `release/3.3`. All open source releases (included pre-releases) are tagged.
-
-The `release/VERSION+BUILD` branches are production-ready branches for our cloud product but are not yet vetted for open source release (alternate platforms & configurations).
 
 |                     | Active Release |
 | ------------------- | -------------- |
