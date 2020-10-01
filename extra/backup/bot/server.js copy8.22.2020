@@ -1,4 +1,4 @@
-/* \/ Required node modules, DO NOT DELETE. \/ */
+// If you didn't want to run in 24/7 you can remove it.
 const http = require('http');
 const express = require('express');
 const Discord = require("discord.js");const client = new Discord.Client();
@@ -11,40 +11,24 @@ const getYoutubeSubscriber = require('getyoutubesubscriber')
 const guildInvites = new Map();
 const ytdl = require('ytdl-core');
 const fetch = require('node-fetch');
-var tinyurl = require('tinyurl');
-/* /\ End /\ */
 
-/* \/ Sync from database \/ */
-/*This can be changed but make sure all the variables are still correct*/
+const swears = ['fuck', 'shit', 'nigga','nigger','ass','bitch','cunt','porn','cock','penis'];
+
+
+/* FileSync */
 let server = JSON.parse(fs.readFileSync(__dirname+"/servers.json"));
-/* |\/ - These should be left alone.|*/
 let botver = config.mainbot_ver;
-let creator_id = config.creator_id;
-let creator_name = config.creator_id;
-let homepage = config.homepage;
-let support_url = config.support_url;
+let owner = config.ownerid;
 var prefix = config.prefix;
-var defaultprefix = config.default_prefix;
-const swears = server.swears;
-/* /\ End /\ */
 
-/* \/ Custom Variables \/ */
+var defaultprefix = config.default_prefix;
 var eprefix = prefix+" ";
 let beprefix = " "+eprefix;
-var commandlist = [`Page 1:\n**${beprefix}help** - Show's more info.\n**${beprefix}vapor** - Create's a vaporwave background with someone's profile.\n**${beprefix}prefix** - Show's the server's prefix.\n**${beprefix}clear <amount>** - Clear's a specific amount of messages Ex. `+eprefix+'`clear 50`'+`.\n**${beprefix}cat** - Sends a random cat image.\n**${beprefix}kawaii**\n**${beprefix}me**\n**${beprefix}filter <on, off>** - Enable's / Disable's swearing Ex. \`${eprefix} filter on\`\n`];
-var logchannel;/*Custom channel variables for commands with the database*/
-var greetingschannel;/*Custom channel variables for commands with the database*/
-var mute_time=10000;/*Time for a member to be muted.*/
-/* |\/ - This can be deleted as long as the luna command is deleted too. to find the luna command press ctrl+f then search "eprefix+'luna'"|*/
-const luna = ["https://cdn.glitch.com/ecec1dd0-4cb5-43ec-8d0f-c30d2f009ea3%2Fluna_bite.gif", "https://cdn.glitch.com/ecec1dd0-4cb5-43ec-8d0f-c30d2f009ea3%2Fluna_blep.gif", "https://cdn.glitch.com/ecec1dd0-4cb5-43ec-8d0f-c30d2f009ea3%2Fluna_beam_half.gif?v=1598727997377","https://cdn.discordapp.com/attachments/749274618610843679/750519687283998778/luna_blink.gif"];
-/* /\ End /\ */
+let economy_prefix = config.economy_prefix;/*+"\n"*/;
+var commandlist = [`Page 1:\n${beprefix}help\n${beprefix}profile\n${beprefix}prefix\n${beprefix}clear\n${beprefix}cat\n${beprefix}kawaii\n${beprefix}me\n${beprefix}filter `+"`[On, Off]`"+`\n`];
+var logchannel;var greetingschannel;
 
-/* \/ Time conversion tool \/ */
-function ms_seconds(x){ return x / 1000;}
-function ms_minutes(x){ return x / 1000;}
-/* /\ End /\ */
-
-/* \/ Important \/ */
+/*global Set, Map*/
 app.use(express.static('public'));
 app.listen(process.env.PORT);
 app.get("/", (request, response) => {
@@ -58,15 +42,13 @@ client.on('shardError', error => {
 process.on('unhandledRejection', error => {
 	console.error('Unhandled promise rejection:', error);
 });
-/* /\ End /\ */
 
 function url_check(str) {
      var urlRegex = '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
      var url = new RegExp(urlRegex, 'i');
      return str.length < 2083 && url.test(str);
 }
-let discordInvite = /(https:\/\/)?(www\.)?(discord\.gg|discord\.me|discordapp\.com\/invite|discord\.com\/invite)\/([a-z0-9-.]+)?/i;
-  
+
 
 //setInterval(() => {http.get(`http://mittz-bot.glitch.me/`);}, 280000);
 
@@ -75,37 +57,27 @@ client.on("message", async (message) => {
   
   if (message.author.bot) return;
   
-  if (message.channel.type === "text") {// beginning of if in chat
+  if (message.channel.type === "text") {
   if (server.prefix[message.guild.id]){prefix=server.prefix[message.guild.id]; eprefix = prefix+" ";} else {prefix='!v!'; eprefix = prefix+" ";}
-    if (message.content.startsWith(eprefix)) {
-    if (server.commandschannel[message.guild.id]){if (server.commandschannel[message.guild.id] !== message.channel.id){if(!message.member.hasPermission('ADMINISTRATOR')||message.author.id!==message.guild.ownerID){message.delete(); return message.author.send("**(Server: `"+message.guild.name+")`** Please use this in the commands channel <#"+server.commandschannel[message.guild.id]+">.\n`If you think this isn't correct, then please ask the owner to change the commands channel.`")}}}
-    }
-    
-if (discordInvite.test(message.content)) {
-  if(message.member.hasPermission('MANAGE_MESSAGES')){return;}
-  message.channel.updateOverwrite(message.author, { SEND_MESSAGES: false });
-    message.channel.send(`${message.author.tag} tried to send a link.`).then(msg => {msg.delete({ timeout: 5000 })});
-  setTimeout( () => {
-message.channel.updateOverwrite(message.author, { SEND_MESSAGES: true });
-}, mute_time);
-}
-    /* \/ Swear Filter \/ */
+  }
+
    for (let i = 0; i < swears.length; i++) {
   const bad_word = swears[i];
   if ((message.content).toLowerCase().includes(bad_word)) {
-    if(!message.guild.me.hasPermission("MANAGE_MESSAGES")){return;}
     if (message.channel.type === "text") {
       if(message.channel.nsfw){return;}
-      if(message.author.id===message.guild.ownerID){return;}
+      if(message.author.id===owner){return;}
       if (server.filter[message.guild.id]){if(server.filter[message.guild.id]==='on'){
         return message.channel.messages.fetch({ limit: 1 }).then(messages => { 
   message.channel.bulkDelete(messages); 
-        message.member.send(new Discord.MessageEmbed().setTitle("O.O hey, **" + message.author.username + " **Unwanted language in** " + message.guild.name + "**.").setDescription("```I noticed that you said something that the owner added to the profanity filter, please do not continue to do this or there will be problems. ```\n`You said: "+message.content+"`\n\n`Muted for: "+ms_seconds(mute_time)+" seconds`").setColor("#ffa500"));
- message.channel.updateOverwrite(message.author, { SEND_MESSAGES: false });
-    message.channel.send(`${message.author.tag} tried to use profanity, and is muted for ${ms_seconds(mute_time)} seconds.`).then(msg => {msg.delete({ timeout: 5000 })});
+  
+        message.member.send(new Discord.MessageEmbed().setTitle("O.O hey, **" + message.author.username + " **Unwanted language in** " + message.guild.name + "**.").setDescription("```I noticed that you said something that the owner added to the profanity filter, please do not continue to do this or there will be problems. ```\n`You said: "+message.content+"`").setColor("#ffa500"));
+
+  message.channel.updateOverwrite(message.author, { SEND_MESSAGES: false });
+    message.channel.send(`${message.author.tag} tried to use profanity.`);
           setTimeout( () => {
 message.channel.updateOverwrite(message.author, { SEND_MESSAGES: true });
-}, mute_time);
+}, 10000);
 
 });
       } 
@@ -113,23 +85,85 @@ message.channel.updateOverwrite(message.author, { SEND_MESSAGES: true });
     }else if (message.channel.type !== "text"||message.channel.type !== "news") {return message.author.send("``You said: "+message.content+"``");}
 }
   }
-  /* /\ End of "Swear Filter"/\ */
-    
-    /* \/ All Commands \/ */
-    if (message.content===(eprefix+'luna')) {
-// Send a random reply to a channel
-message.channel.send(luna[Math.floor(Math.random() * 4)]);
+  
+  if(message.content.startsWith(eprefix+"debug")&&(message.author.id===owner/*||message.author.id==="123413327094218753"*/)){
+    var args = message.content.split(" ").slice(1);
+  try{
+    return message.channel.send("Output: "+eval(args.join(" ")))
+  } catch(err){
+    return message.channel.send("Error:" + err)
+  }
 }
-    
-   
+  
+  
+   if (message.content===(eprefix+'boom')) {
+     var current_pos
+     current_pos = message.channel.position
+     if (message.author.id!==owner){return message.reply("Only the owner of me `"+client.user.username+"` can do this").then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error)}
+    if(!message.guild.me.hasPermission("MANAGE_CHANNELS")){return message.channel.send("Missing permission `Manage Channels`")}
+     message.channel.send('please type yes to nuke the channel and no to cancel the operation `[yes]`').then(() => {
+	const filter = m => message.author.id === m.author.id;
+	message.channel.awaitMessages(filter, { time: 30000, max: 1, errors: ['time'] })
+		.then(messages => {
+			if (messages.first().content==("yes")) {  
+        
+         message.author.send('Channel position is'+current_pos)
+         setTimeout(async () => {
+    await message.channel.send("boop");
+    let newch = await message.channel.clone();
+    await message.channel.delete();
+    await newch.setPosition(current_pos)
+           message.author.send('Channel 2 position is'+current_pos)
+}, 900);
+
+    } else if (messages.first().content==("no")) {
+return message.reply("Operation canceled.")
+    }else {message.channel.send("Just type **on** or **off** after `"+eprefix+"filter`.")}
+  }).catch(() => {
+			message.channel.send('You did not enter any input!');
+		});
+});
      
-    if (message.content===(eprefix+'create invite')) {
-    if(!message.guild.me.hasPermission("CREATE_INSTANT_INVITE")){return message.channel.send("Missing permission `Create Invite`")}
-    await message.channel.send( `\n https://cdn.discordapp.com/attachments/549225667267395596/572811777738276866/rainbow.gif`)
-    await message.channel.createInvite().then(invite =>message.channel.send(invite.url+" Here is your invite link!"));
-    await message.channel.send( `\n https://cdn.discordapp.com/attachments/549225667267395596/572811777738276866/rainbow.gif`)
+  
+
    }
-    var missing_permissions='';
+  
+  if (message.content.startsWith('pos')) {
+    message.delete();
+message.reply('Channel position is'+message.channel.position).then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
+   }
+  
+  
+  
+  if (message.content.startsWith('up')) {
+    message.delete();message.reply('Yep').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
+   }
+  if (message.content===(eprefix+'create invite')) {
+    if(!message.guild.me.hasPermission("CREATE_INSTANT_INVITE")){return message.channel.send("Missing permission `Create Invite`")}
+var url;
+   
+       
+message.channel.createInvite().then(invite =>
+   url = invite.url
+                                        
+);
+  const embed = new Discord.MessageEmbed()
+			.setColor('RANDOM')
+			.setTitle(`Here is your invite link`)
+			.setURL(url);
+		return message.author.send( embed );
+
+
+    
+   }
+  
+  
+  
+  
+  
+  
+  
+  var missing_permissions='';
   if (message.content.startsWith(eprefix+'missing permissions')) {
   if(!message.guild.me.hasPermission("MANAGE_MESSAGES")){missing_permissions+='Manage Messages, ';}
   if(!message.guild.me.hasPermission("MANAGE_CHANNELS")){missing_permissions+='Manage Channels, ';}
@@ -145,33 +179,121 @@ message.channel.send(luna[Math.floor(Math.random() * 4)]);
  return message.channel.send("missing permission `"+missing_permissions+"`")
     } else return message.channel.send('All good!')
   }
-  }//end of if in chat
+  //logchannel = message.guild.channels.cache.get('741450918020513813')
+  //else prefix='!v!'; eprefix = prefix+" ";{}
+  
+ 
   
   
-  if (message.content.startsWith('up')) {
-    message.delete();message.reply('Yep').then(msg => {msg.delete({ timeout: 5000 })});
-   }
   
-
+    if (message.content==(eprefix+"hmm")) {
+  message.guild.roles.everyone.hasPermission('KICK_MEMBERS', { checkAdmin: false, checkOwner: false })
+    }
   
   //Fun-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   
   if (message.content==(eprefix+"advice")) {
+     
+
+
     message.delete();var link = fetch('https://api.adviceslip.com/advice').then(res => res.json());
+    
     link.then(json => {
+
     const exampleEmbed = {
 	color: 0x0099ff,
 	title: 'Advice',
 	fields: [
-		{name:message.author.username+', here you go.',
-			value: json.slip.advice
+		{
+			value: json.slip.advice,
 		}
 	],
+	
 };
-    message.channel.send({ embed: exampleEmbed })}).then(msg => {msg.delete({ timeout: 15000 })});
+    message.channel.send({ embed: exampleEmbed })})
   }
   
- 
+                
+  
+  
+   if (message.content==(eprefix+"test")) {
+
+     
+     
+     const exampleEmbed = {
+	color: 0x0099ff,
+	title: 'Some title',
+	url: 'https://discord.js.org',
+	author: {
+		name: 'Some name',
+		icon_url: 'https://i.imgur.com/wSTFkRM.png',
+		url: 'https://discord.js.org',
+	},
+	description: 'Some description here',
+	thumbnail: {
+		url: 'https://i.imgur.com/wSTFkRM.png',
+	},
+	fields: [
+		{
+			name: 'Types',
+			value: '\u200b',
+		},/*
+		{
+			name: '\u200b',
+			value: '\u200b',
+			inline: true,
+		},*/
+		{
+			name: 'Channel Locking',
+			value: '[lock, unlock]',
+			inline: false,
+		},
+		{
+			name: 'Hide Channel',
+			value: '[hide, unhide]',
+			inline: false,
+		},
+	
+	],
+	image: {
+		url: 'https://i.imgur.com/wSTFkRM.png',
+	},
+	timestamp: new Date(),
+	footer: {
+		text: 'Some footer text here',
+		icon_url: 'https://i.imgur.com/wSTFkRM.png',
+	},
+};
+
+message.channel.send({ embed: exampleEmbed });
+     
+     
+    }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  if (message.content.startsWith(eprefix+"set")) {
+  if (message.content==(eprefix+"set-logs")) {
+     if (message.channel.type !== "text") {return message.channel.send('Please do this in a server with `'+client.user.username+'`')}
+      message.channel.send("Logs channel changed");
+      server.logschannel[message.guild.id]=message.channel.id;
+      fs.writeFileSync("servers.json", JSON.stringify(server, null, 2));
+    }
+    if (message.content==(eprefix+"set-welcome")) {
+     if (message.channel.type !== "text") {return message.channel.send('Please do this in a server with `'+client.user.username+'`')}
+      message.channel.send("Welcome channel changed");
+      server.greetingschannel[message.guild.id]=message.channel.id;
+      fs.writeFileSync("servers.json", JSON.stringify(server, null, 2));
+    }
+  }
   
    if (message.content==(eprefix+"channel")) {
      if (message.channel.type !== "text") {return message.channel.send('Please do this in a server with `'+client.user.username+'`')}
@@ -179,13 +301,17 @@ message.channel.send(luna[Math.floor(Math.random() * 4)]);
 	color: 0x0099ff,
 	title: 'Command Types',
 	description: 'Type one of anything in a [ ]',
-	thumbnail: {url: message.author.avatarURL({ format: 'jpg' }), },
+	thumbnail: {
+		url: message.author.avatarURL({ format: 'jpg' }),
+	},
 	fields: [
 		{name: 'Lock Channel',value: '[locked]',inline: false,},
 		{name: 'Hide Channel',value: '[hidden]',inline: false,},
 	],
 	timestamp: new Date(),
-	footer: {text: client.user.username, icon_url: client.user.avatarURL({ format: "png", dynamic: true }),
+	footer: {
+    text: client.user.username,
+		icon_url: client.user.avatarURL({ format: "png", dynamic: true }),
 	},
 };
 message.channel.send({ embed: exampleEmbed });
@@ -205,14 +331,18 @@ message.channel.send({ embed: exampleEmbed });
     return message.channel.send("There is no need to use a prefix here.");
   }
     if (messagestwo.first().content=="true") {
-     message.channel.updateOverwrite(message.channel.guild.roles.everyone, { SEND_MESSAGES: false }); return message.channel.send("This channel has been `Locked`!");
+     message.channel.updateOverwrite(message.channel.guild.roles.everyone, { SEND_MESSAGES: false });
+    return message.channel.send("This channel has been `Locked`!");
   }else
     if (messagestwo.first().content=="false") {
-    message.channel.updateOverwrite(message.channel.guild.roles.everyone, { SEND_MESSAGES: true });return message.channel.send("This channel has been `Un-Locked`!");
+    message.channel.updateOverwrite(message.channel.guild.roles.everyone, { SEND_MESSAGES: true });
+    return message.channel.send("This channel has been `Un-Locked`!");
   }else{message.channel.send("This is not a valid option..")}
+  
+
   }).catch(() => {message.channel.send('You did not enter any input!');});
-})}
-    
+});
+  }
     if (messages.first().content=="hidden") {
     message.reply('Options [true, false]').then(() => {
 	const filter = m => message.author.id === m.author.id;
@@ -222,14 +352,18 @@ message.channel.send({ embed: exampleEmbed });
     return message.channel.send("There is no need to use a prefix here.");
   }
     if (messagestwo.first().content=="true") {
-    message.channel.updateOverwrite(message.channel.guild.roles.everyone, { VIEW_CHANNEL: false });return message.channel.send("This channel has been `Hidden`!");
+    message.channel.updateOverwrite(message.channel.guild.roles.everyone, { VIEW_CHANNEL: false });
+    return message.channel.send("This channel has been `Hidden`!");
   }else
     if (messagestwo.first().content=="false") {
-    message.channel.updateOverwrite(message.channel.guild.roles.everyone, { VIEW_CHANNEL: true });return message.channel.send("This channel has been `Un-Hidden`!");
+    message.channel.updateOverwrite(message.channel.guild.roles.everyone, { VIEW_CHANNEL: true });
+    return message.channel.send("This channel has been `Un-Hidden`!");
   }else{message.channel.send("This is not a valid option..")}
+  
+
   }).catch(() => {message.channel.send('You did not enter any input!');});
-    })}
-    
+});
+  }
   }).catch(() => {
 			message.channel.send('You did not enter any input!');
 		});
@@ -239,26 +373,24 @@ if (message.content==(eprefix+"try")) {
   message.channel.updateOverwrite(message.author, { SEND_MESSAGES: false });
     return message.channel.send("This channel has been `Locked for you`!");
 }
-  
-  
   if (message.content.includes==(eprefix+"channel")) {
     var command = "channel";
     if (message.content==(eprefix+command+" hide")) {
     message.channel.updateOverwrite(message.channel.guild.roles.everyone, { VIEW_CHANNEL: false });
     return message.channel.send("This channel has been `Hidden`!");
-    } else
-    if (message.content==(eprefix+command+" unhide")) {
-    message.channel.updateOverwrite(message.channel.guild.roles.everyone, { VIEW_CHANNEL: true });
-    return message.channel.send("This channel has been `Un-Hidden`!");
-    } else
-    if (message.content==(eprefix+command+" lock")) {
-    message.channel.updateOverwrite(message.channel.guild.roles.everyone, { SEND_MESSAGES: false });
-    return message.channel.send("This channel has been `Locked`!");
-    }else
-    if (message.content==(eprefix+command+" unlock")) {
-    message.channel.updateOverwrite(message.channel.guild.roles.everyone, { SEND_MESSAGES: true });
-    return message.channel.send("This channel has been `Un-Locked`!");
-    }else{return message.channel.send("Options: \n[`hide`, `unhide`]\n[`lock`, `unlock`]");}
+    }
+    if (message.content==(eprefix+command+" hide")) {
+    message.channel.updateOverwrite(message.channel.guild.roles.everyone, { VIEW_CHANNEL: false });
+    return message.channel.send("This channel has been `Hidden`!");
+    }
+    if (message.content==(eprefix+command+" hide")) {
+    message.channel.updateOverwrite(message.channel.guild.roles.everyone, { VIEW_CHANNEL: false });
+    return message.channel.send("This channel has been `Hidden`!");
+    }
+    if (message.content==(eprefix+command+" hide")) {
+    message.channel.updateOverwrite(message.channel.guild.roles.everyone, { VIEW_CHANNEL: false });
+    return message.channel.send("This channel has been `Hidden`!");
+    }
 }
   
   if (message.content.startsWith(eprefix + 'avatar')) {
@@ -297,30 +429,6 @@ if (message.content==(eprefix+"try")) {
 });
     
   }
-  
-  
-  
-  
-
-  
-  
-  
-  
-  
-  if (message.content.startsWith(eprefix + 'color')) {
-try {
-       var margs = message.content.split(" ");
-        const canvas = Canvas.createCanvas(250, 250);
-       const ctx = canvas.getContext('2d');
-ctx.fillStyle = margs[2];
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-    const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'profile.png');
-    message.channel.send(`Here is your color, ${message.author.tag}!`, attachment).then(msg => {msg.delete({ timeout: 7000 })});
-    } catch (error) {
-      return message.channel.send(`Something went wrong: ${error.message}`).then(msg => {msg.delete({ timeout: 5000 })});
-    }
-  }
-  
   function profile_card(user_type){
     
         const canvas = Canvas.createCanvas(700, 250);
@@ -344,7 +452,7 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
                      if (server.badges[user_type.id].includes("rich")) {
                        ctx.drawImage(rich, 320, 147, 40, 40);
                      }
-                     if (message.author.id===message.guild.ownerID) {
+                     if (message.guild.ownerID === message.author.id) {
                        ctx.drawImage(owner, 185, 50, 55, 40);
                      }
                      ctx.font = '40px sans-serif';
@@ -380,6 +488,7 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
   if (!message.mentions.users.size) {
 		return profile_card(message.author);
 	}
+    
 	const avatarList = message.mentions.users.map(user => {
 profile_card(user)
 	});
@@ -400,9 +509,11 @@ profile_card(user)
             .setDescription('')
             .setTimestamp(new Date())
             .setFooter('Orago Dev', 'https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664');
+
+        // send the entire array of strings as a message
+        // by default, discord.js will `.join()` the array with `\n`
         message.channel.send(creator);
 	}
-  
   if (message.content.startsWith(eprefix + 'ping')) {
     try {
       message.channel.send("Pinging...").then(msg=>{ 
@@ -438,7 +549,6 @@ profile_card(user)
         .setFooter(`${client.user.username} | By: Orago`)
       message.channel.send(embed);
   }
-  
  if (message.content==(eprefix + "commands")||message.content==("!v! commands")) {
     const embed = new Discord.MessageEmbed()
         .setThumbnail(client.user.avatarURL)
@@ -447,7 +557,7 @@ profile_card(user)
         .addField('__Command List 1__', commandlist, true)
         .setColor(config.color)
         .setFooter(`${client.user.username} | By: Orago`)
-      message.channel.send(embed);
+      message.author.send(embed);
   }
   
   
@@ -486,7 +596,7 @@ var person = message.author;
   if (server.servers.includes(message.guild.id)){var registered = true;}
 if (!server.profiles.includes(person.id)){return message.channel.send(`Please ask the user @ ${person.username} to setup `+client.user.username+`economy with `+"`"+eprefix+`self setup`+"`")}
 var embed = new Discord.MessageEmbed()
-        .setThumbnail(message.author.avatarURL({ format: 'jpg' }))
+        .setThumbnail(client.user.avatarURL({ format: "png", dynamic: true }))
         .setTitle(`__Guild and ${person.username}'s kawaii leaderboard__`)
         .setDescription(`Here are the scores and validity`)
         .setColor(config.color)
@@ -502,6 +612,7 @@ var embed = new Discord.MessageEmbed()
 }
 
 if (message.content.startsWith(eprefix + "account")) {
+  
   var registered = false;
   if (!server.servers.includes(message.guild.id)&&!server.profiles.includes(message.author.id)) return message.channel.send("Please ask the server owner to setup "+client.user.username+" economy with `"+eprefix+"guild setup` then set up your profile with`"+eprefix+"self setup`");
   if (!server.profiles.includes(message.author.id)){return message.channel.send("Please setup "+client.user.username+" economy with `"+eprefix+"self setup`")}
@@ -580,6 +691,16 @@ function guild_setup(){
   
   
 }
+    if (message.content==(eprefix+"economy")) {
+      var embed = new Discord.MessageEmbed()
+    embed.setAuthor(client.user.username+" Economy", client.user.avatarURL)
+     embed.addField("📇 **Profile Commands**","`"+economy_prefix+"self setup` - Setup your profile\n`"+economy_prefix+"guild setup` - Setup your guild **Only owner can setup**\n`"+economy_prefix+"profile` - View your profile\n`"+economy_prefix+"get (user)` - Get another user's profile\n`"+economy_prefix+"edit` - Edit your profile")
+     embed.addField("💵 **Get Experience**", "`"+economy_prefix+"work` - Gain from 1xp to 300xp every 10 minutes\n`"+economy_prefix+"gamble (xp)` - 1/2 chance of doubling xp\n`"+economy_prefix+"crime` - 1/5 chance of getting up to 1200xp. Or loosing it.\n`"+economy_prefix+"fish` - Go fishing, and try to sell the fish for more than you pay for casting!\n`Every Message` - Gain 10xp for every message every 30 seconds")
+     embed.addField("🛒 **Buy Stuff**","`"+economy_prefix+"shop` - Buy something from the shop.")
+     embed.setColor(config.color)
+     embed.setFooter(client.user.username)
+     message.channel.send(embed)
+}
     
   if (message.content==(eprefix+"self setup")) {
     self_setup();
@@ -588,7 +709,7 @@ function guild_setup(){
   guild_setup();
 }  
   }
-if (message.content==(eprefix+'server')) {
+if (message.content==(eprefix + "server")) {
   if (message.channel.type !== "text")return;
   var embed = new Discord.MessageEmbed()
       .setAuthor(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
@@ -609,21 +730,6 @@ if (message.content==(eprefix+'server')) {
         .setFooter(client.user.username, client.user.avatarURL({ format: "png", dynamic: true }))
     message.channel.send(embed)
 }
-  
-  if (message.content==(eprefix + "members")) {
-    message.delete();
-  const embed = new Discord.MessageEmbed()
-  .setAuthor(message.guild.name, message.guild.iconURL())
-  .setColor(config.color)
-  .setDescription("Members counter.")
-  .addField('Members', message.guild.memberCount, true)
-  .addField('Real Members', message.guild.members.cache.filter(member => !member.user.bot).size, true)
-  .addField('Bots', message.guild.members.cache.filter(member => member.user.bot).size, true)
-  .setTimestamp()
-message.channel.send(embed);
-}
-  
-  
 if (message.content==(eprefix + "homepage")) {
   const embed = new Discord.MessageEmbed()
   .setTitle("Visit homepage")
@@ -638,64 +744,26 @@ if (message.content==(eprefix + "homepage")) {
 message.channel.send(embed);
 }
   
-if (message.content==(eprefix + "support")) {
-  const embed = new Discord.MessageEmbed()
-  .setAuthor("Mittens Homepage", "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2F8bitpc%20vaporwave%20blue%20cat.png?v=1594354853240")
-  .setTitle("Join "+client.user.username+" Support Server")
-  .setURL(support_url)
-  .setColor(config.color)
-  .setDescription("This is the home and support server for "+client.user.username+"!")
-  .setImage("https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664")
-  .setThumbnail("https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Finbreadspread.png?v=1594354874436")
-  .setFooter("Made by "+creator_name, client.user.avatarURL({ format: "png", dynamic: true }))
-  .setTimestamp()
-message.channel.send(embed).then(msg => {msg.delete({ timeout: 15000 })});
-}
   
-function draw_guys(user_info){
-  const canvas = Canvas.createCanvas(700, 250);
+if (message.content === eprefix+'me') {
+    const canvas = Canvas.createCanvas(700, 250);
        const ctx = canvas.getContext('2d');
-   Canvas.loadImage('https://cdn.glitch.com/ecec1dd0-4cb5-43ec-8d0f-c30d2f009ea3%2F7xb1nf8cz8ss31.png').then((background) => {
+  Canvas.loadImage('https://img.freepik.com/free-vector/retro-vaporwave-background-cyberpunk-laser-grid-80s-style-abstract-futuristic-landscape_87408-125.jpg').then((background) => {
          ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-           Canvas.loadImage(user_info.avatarURL({ format: 'jpg' })).then((icon) => {
-Canvas.loadImage('https://cdn.discordapp.com/attachments/741450918020513813/742241361968758804/boxie32bfull.png').then((boxie) => {            
-   ctx.drawImage(boxie, 642, 192, 48, 48);
-  ctx.strokeStyle = '#74037b';
-	ctx.strokeRect(0, 0, canvas.width, canvas.height);
-ctx.moveTo(110, 75);
-	// Pick up the pen
-	ctx.beginPath();
-	// Start the arc to form a circle
-	ctx.arc(410, 130, 40, 0, Math.PI * 2, true);
-	// Put the pen down
-	ctx.closePath();
-	// Clip off the region you drew on
-	ctx.clip();
-                      ctx.drawImage(icon, 370, 90, 80, 80);//150
-                     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'profile.png');
-                     return message.channel.send(`Here is your profile, ${user_info.tag}!`, attachment);
-              })
-             })
-           })
-}
-  
-function draw_vapor(user_info){
-  const canvas = Canvas.createCanvas(700, 250);
-       const ctx = canvas.getContext('2d');
-   Canvas.loadImage('https://img.freepik.com/free-vector/retro-vaporwave-background-cyberpunk-laser-grid-80s-style-abstract-futuristic-landscape_87408-125.jpg').then((background) => {
-         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-           Canvas.loadImage(user_info.avatarURL({ format: 'jpg' })).then((icon) => {
+           Canvas.loadImage(message.author.avatarURL({ format: 'jpg' })).then((icon) => {
 Canvas.loadImage('https://cdn.discordapp.com/attachments/741450918020513813/742241361968758804/boxie32bfull.png').then((boxie) => {
+                     
                      ctx.drawImage(boxie, 642, 192, 48, 48);
                      ctx.font = '40px sans-serif';
-                     if (user_info.id===creator_id){ctx.fillStyle = "#deff1a";}
+                     if (message.author.id===owner){ctx.fillStyle = "#deff1a";}
                      else {ctx.fillStyle = "#ffffff";}
-                     ctx.fillText(`${user_info.tag}`, 240, 90);
+                     ctx.fillText(`${message.author.tag}`, 240, 90);
                      ctx.fillStyle = "#ffffff";
                      ctx.font = '25px sans-serif';
-                     ctx.fillText(`ID: ${user_info.id}`, 240, 150);
+                     ctx.fillText(`ID: ${message.author.id}`, 240, 150);
   ctx.strokeStyle = '#74037b';
 	ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
 	// Pick up the pen
 	ctx.beginPath();
 	// Start the arc to form a circle
@@ -706,40 +774,17 @@ Canvas.loadImage('https://cdn.discordapp.com/attachments/741450918020513813/7422
 	ctx.clip();
                       ctx.drawImage(icon, 25, 25, 150, 150);
                      const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'profile.png');
-                     return message.channel.send(`Here is your profile, ${user_info.tag}!`, attachment);
+                     message.channel.send(`Here is your profile, ${message.author.tag}!`, attachment);
               })
              })
            })
-}
-  
-if (message.content.startsWith (eprefix+'vapor')) {
-  if (!message.mentions.users.size) {
-		return draw_vapor(message.author)
-	}
-	const avatarList = message.mentions.users.map(user => {
-		return draw_vapor(user)
-	});
-	message.channel.send(avatarList);
-  
   }
   if (message.content === eprefix+'cat') {
     let width=(Math.random()*1800+200)|0;let height=(Math.random()*1800+200)|0;
 		message.channel.send(new Discord.MessageEmbed().setColor("ORANGE").setDescription("**Meow!**").setImage("http://placekitten.com/"+width+"/"+height+"/"));
   }
- if (message.content.startsWith (eprefix+'uh')) {
-  if (!message.mentions.users.size) {
-		return draw_guys(message.author)
-	}
-	const avatarList = message.mentions.users.map(user => {
-    if (user.id === message.guild.ownerID){return message.reply("You Can't uh the great one, but nice try though,").then(msg => {msg.delete({ timeout: 5000 })});}
-		return draw_guys(user)
-    message.channel.send(avatarList);
-	});
-	
-  
-  }
  
-/*
+
   if (message.content.startsWith(eprefix+"play")) {
     if(!message.guild.me.hasPermission("CONNECT")){return message.reply('Missing Permission `Connect`')}
     if(!message.guild.me.hasPermission("SPEAK")){return message.reply('Missing Permission `Speak`')}
@@ -779,8 +824,7 @@ voiceChannel.join().then(connection => {
 			.setColor('RANDOM')
 			.setTitle(`Invite ${client.user.username} to your server!`)
 			.setURL(`https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8`);
-		message.author.send(embed);
-   
+		return message.author.send( embed );
   }
   
  if (message.content === eprefix+'radio source') {
@@ -796,7 +840,25 @@ voiceChannel.join().then(connection => {
         .setFooter(client.user.username, "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664")
     message.author.send(embed)
   }
-  */
+   
+  if (message.content === eprefix+'twadadawdawdawdawdaw') {
+   message.channel.send('Please enter more input.').then(() => {
+	const filter = m => message.author.id === m.author.id;
+
+	message.channel.awaitMessages(filter, { time: 30000, max: 1, errors: ['time'] })
+		.then(messages => {
+			 if (message.attachments.size > 0) {
+message.channel.send(`You've entered: ${messages.first().content}`);
+}
+    
+       
+  })
+		.catch(() => {
+			message.channel.send('You did not enter any input!');
+		});
+});
+  }
+
   if (message.content === eprefix+'permissions') {
 if (message.channel.type !== "text") {return message.channel.send('Please do this in a server with `'+client.user.username+'`')}
  var embed = new Discord.MessageEmbed()
@@ -835,7 +897,7 @@ if (message.channel.type !== "text") {return message.channel.send('Please do thi
         .addField('View Guild Insights', message.member.hasPermission('VIEW_GUILD_INSIGHTS'),true)
         .setColor('#5CC5FF')
         .setFooter(client.name, "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664")
-    message.channel.send(embed)
+    message.channel.send(embed).then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error)
   }
   
   
@@ -850,25 +912,27 @@ if (message.channel.type !== "text") {return message.channel.send('Please do thi
         .setThumbnail(message.author.avatarURL())
         .addField('Need to contact the bot developer?', '<@193127888646701056>',true)
         .addField('Dont know any commands?','simple! just say `!v! help` or `!v! commandlist`',true)
+
         .setColor('#5CC5FF')
+        
         .setFooter(client.name, "https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664")
     message.channel.send(embed)
     }
   }
   
-/* /\ Bot Owner Commands */
-  if (message.author.id===creator_id){
+//Owner Commands
+  if (message.author.id===owner){
 if (message.content==(eprefix+"restart")) {
-    if (message.author.id!==creator_id){return message.reply("Only the owner of me `"+client.user.username+"` can do this").then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error)}
+    if (message.author.id!==owner){return message.reply("Only the owner of me `"+client.user.username+"` can do this").then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error)}
     message.channel.send("restarting now!")
     setTimeout(()=>{
          process.exit();
     },10)
   }
-  }/* /\ End of "Bot Owner COmmands"/\ */
-  
-/* \/ Admin & Staff Commands */
-if (message.channel.type === "text" &&(message.member.hasPermission('ADMINISTRATOR')||message.author.id===creator_id||message.author.id==="123413327094218753")){
+  }
+//Admin/server commands
+
+if (message.channel.type === "text" &&(message.member.hasPermission('ADMINISTRATOR')||message.author.id===owner)){
   
   
   
@@ -898,32 +962,35 @@ if (!prefix_given) return message.reply('You haven\'t given a prefix to be set')
   
   
   if (message.content==eprefix+"stop") {
-    const voiceChannel = message.member.voice.channel;voiceChannel.leave();message.channel.send("audio ended").then(msg => {msg.delete({ timeout: 10000 })});
+    const voiceChannel = message.member.voice.channel;
+    voiceChannel.leave();
+    message.channel.send("audio ended").then(msg => {msg.delete({ timeout: 10000 })}).catch(console.error)
   }
   
   if (message.content.startsWith(eprefix+"createrole")) {
-    if(!message.guild.me.hasPermission("MANAGE_ROLES")){return message.reply('Missing Permission `Manage Roles`').then(msg => {msg.delete({ timeout: 5000 })})}
+    if(!message.guild.me.hasPermission("MANAGE_ROLES")){return message.reply('Missing Permission `Manage Roles`').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error)}
   const args = message.content.split(' ').slice(2); 
 const name = args.join(' '); 
  var yes = '👍';
 var no = '👎';
-    if (!name) return message.channel.send('Ex. `'+eprefix+'createrole catto`').then(msg => {msg.delete({ timeout: 5000 })}); 
+    if (!name) return message.reply('Ex. `'+eprefix+'createrole catto`'); 
     let role_check = message.member.guild.roles.cache.find(role => role.name === name);
 if(!role_check) {
 	message.react(yes).then(r => {message.react(no);});
 message.guild.roles.create({ data: { name: name, permissions: ['READ_MESSAGE_HISTORY', 'SEND_MESSAGES','VIEW_CHANNEL'] } });
-message.reply(`Role "`+name+`" has been created !`).then(msg => {msg.delete({ timeout: 5000 })});
-            message.channel.send('Would you also like to get this role').then(msg => {msg.delete({ timeout: 10000 })})
+message.reply(`Role "`+name+`" has been created !`)
+            message.channel.send('Would you also like to get this role').then(msg => {msg.delete({ timeout: 10000 })}).catch(console.error)
       message.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == yes || reaction.emoji.name == no),
                             { max: 1, time: 30000 }).then(collected => {
                                     if (collected.first().emoji.name == yes) {
                                       var role= message.member.guild.roles.cache.find(role => role.name === name);
                                       message.member.roles.add(role);
-                                      message.reply("You have given yourself the \""+name+"\" role.").then(msg => {msg.delete({ timeout: 5000 })}); 
+                                      message.reply("You have given yourself the \""+name+"\" role.")  
                                     }
-                                    else message.channel.send('Operation canceled.').then(msg => {msg.delete({ timeout: 5000 })});
+                                    else
+                                            message.channel.send('Operation canceled.').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
                             }).catch((err) => {
-                                    message.channel.send('No reaction after 30 seconds, operation canceled').then(msg => {msg.delete({ timeout: 5000 })});
+                                    message.channel.send('No reaction after 30 seconds, operation canceled').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
                                           console.log(err)
                             });
 }
@@ -933,7 +1000,7 @@ else {
 }
 
   if (message.content.startsWith(eprefix+"createchannel")) {
-    if(!message.guild.me.hasPermission("MANAGE_CHANNELS")){return message.reply('Missing Permission `Manage Channels`').then(msg => {msg.delete({ timeout: 5000 })})}
+    if(!message.guild.me.hasPermission("MANAGE_CHANNELS")){return message.reply('Missing Permission `Manage Channels`').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error)}
     const args = message.content.split(' ').slice(2);
     const text = args.join(' '); 
     if (!text) {
@@ -954,8 +1021,10 @@ else {
     if (message.content === eprefix+'leave-server') {
       var yes = '👍';
       var no = '👎';
-      message.react(yes).then(r => {message.react(no);});
-      message.channel.send('The bot will now leave the server.\n'+ 'Confirm with a thumb up or deny with a thumb down.').then(msg => {msg.delete({ timeout: 5000 })});
+      message.react(yes).then(r => {
+                            message.react(no);
+                    });
+      message.channel.send('The bot will now leave the server.\n'+ 'Confirm with a thumb up or deny with a thumb down.').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
       message.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == yes || reaction.emoji.name == no),
                             { max: 1, time: 30000 }).then(collected => {
                                     if (collected.first().emoji.name == yes) {
@@ -963,272 +1032,99 @@ else {
                                              message.guild.leave()
                                               .then(g => console.log(`Left the guild ${g}`))
                                               .catch(console.error);
-                                    }else
-                                    message.reply('Operation canceled.').then(msg => {msg.delete({ timeout: 5000 })});
+                                    }
+                                    else
+                                            message.reply('Operation canceled.').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
                             }).catch(() => {
-                                  message.channel.reply('No reaction after 30 seconds, operation canceled').then(msg => {msg.delete({ timeout: 5000 })});
+                                    message.channel.reply('No reaction after 30 seconds, operation canceled').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
                             });
     }
   
   if (message.content.startsWith(eprefix+"clear")) {
-    if(!message.guild.me.hasPermission("MANAGE_MESSAGES")){return message.reply('Missing Permission `Manage Messages`').then(msg => {msg.delete({ timeout: 5000 })})}
+    if(!message.guild.me.hasPermission("MANAGE_MESSAGES")){return message.reply('Missing Permission `Manage Messages`').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error)}
   const args = message.content.split(' ').slice(2); 
 const amount = args.join(' '); 
-if (!amount) return message.reply('You haven\'t given an amount of messages which should be deleted!').then(msg => {msg.delete({ timeout: 3000 })}); 
-if (isNaN(amount)) return message.reply('The amount parameter isn`t a number!').then(msg => {msg.delete({ timeout: 3000 })}); 
-if (amount > 100) return message.reply('You can`t delete more than 100 messages at once!').then(msg => {msg.delete({ timeout: 3000 })});
-if (amount < 1) return message.reply('You have to delete at least 1 message!').then(msg => {msg.delete({ timeout: 3000 })});
+if (!amount) return message.reply('You haven\'t given an amount of messages which should be deleted!').then(msg => {msg.delete({ timeout: 3000 })}).catch(console.error); 
+if (isNaN(amount)) return message.reply('The amount parameter isn`t a number!').then(msg => {msg.delete({ timeout: 3000 })}).catch(console.error); 
+if (amount > 100) return message.reply('You can`t delete more than 100 messages at once!').then(msg => {msg.delete({ timeout: 3000 })}).catch(console.error);
+if (amount < 1) return message.reply('You have to delete at least 1 message!').then(msg => {msg.delete({ timeout: 3000 })}).catch(console.error);
  message.channel.messages.fetch({ limit: amount }).then(messages => { 
     message.channel.bulkDelete(messages); 
-  if(amount > 1){message.reply(":white_check_mark: "+amount+" messages have been deleted").then(msg => {msg.delete({ timeout: 1000 })});} else {message.reply(":white_check_mark: 1 message has been deleted").then(msg => {msg.delete({ timeout: 1000 })});};
+  if(amount > 1){message.reply(":white_check_mark: "+amount+" messages have been deleted").then(msg => {msg.delete({ timeout: 1000 })}).catch(console.error);} else {message.reply(":white_check_mark: 1 message has been deleted").then(msg => {msg.delete({ timeout: 1000 })}).catch(console.error);};
 });}
-  if (message.content.startsWith(eprefix+"channel position")) {
-    if(!message.guild.me.hasPermission("MANAGE_MESSAGES")){return message.reply('Missing Permission `Manage Messages`').then(msg => {msg.delete({ timeout: 5000 })})}
-  const args = message.content.split(' '); 
-const amount = args.splice(3); 
-if (!amount) return message.reply('You haven\'t given an amount of messages which should be deleted!').then(msg => {msg.delete({ timeout: 3000 })}); 
-if (isNaN(amount)) return message.reply('The amount parameter isn`t a number!').then(msg => {msg.delete({ timeout: 3000 })}); 
-if (amount > 100) return message.reply('You can`t delete more than 100 messages at once!').then(msg => {msg.delete({ timeout: 3000 })});
-if (amount < 1) return message.reply('You have to delete at least 1 message!').then(msg => {msg.delete({ timeout: 3000 })});
- message.channel.messages.fetch({ limit: amount }).then(messages => { 
-    message.channel.bulkDelete(messages); 
-  if(amount > 1){message.reply(":white_check_mark: "+amount+" messages have been deleted").then(msg => {msg.delete({ timeout: 1000 })});} else {message.reply(":white_check_mark: 1 message has been deleted").then(msg => {msg.delete({ timeout: 1000 })});};
-});}
+  
  
   //let args = message.content.split(" ").slice(1);
-  if (message.content.startsWith(prefix + "say")) { message.delete();message.channel.send("" + (message.content.split(" ").slice(1)).join(" "))}
+  if (message.content.startsWith(prefix + "say")) { message.channel.send("" + (message.content.split(" ").slice(1)).join(" "))}
   
   
 if (!message.guild) return;
   if (message.content.startsWith(eprefix + 'kick')) {
-      if(!message.guild.me.hasPermission("KICK_MEMBERS")){return message.reply('Missing Permission `Kick Members`').then(msg => {msg.delete({ timeout: 5000 })})}
+      if(!message.guild.me.hasPermission("KICK_MEMBERS")){return message.reply('Missing Permission `Kick Members`').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error)}
     const user = message.mentions.users.first();
     if (user) {
-      if (user==client.user.id) {return message.reply(`sad cat noises 3:\nbut if you really want me to leave use ${eprefix} leave-server`)};
+      if (user=="578319500475105341") {return message.reply(`sad cat noises 3:\nbut if you really want me to leave use ${eprefix} leave-server`)};
       const member = message.guild.member(user);
-      if(member.bot|user.bot) {return message.reply('I cannot kick a bot, you must do this manually.').then(msg => {msg.delete({ timeout: 8000 })});}
       if (member) {var yes = '👍'; var no = '👎';
         message.react(yes).then(r => {message.react(no);});
-            message.reply('You are about to kick '+user.tag+'\nConfirm with a thumb up or deny with a thumb down.').then(msg => {msg.delete({ timeout: 8000 })});
+            message.reply('You are about to kick '+user.tag+'\nConfirm with a thumb up or deny with a thumb down.').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
       message.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == yes || reaction.emoji.name == no),
                             { max: 1, time: 30000 }).then(collected => {
                                     if (collected.first().emoji.name == yes) {
-                                      
                                             member.kick('Optional reason that will display in the audit logs').then(() => {
-                                              user.send(new Discord.MessageEmbed().setTitle("You have been **Blep'd** by, `" + member.tag + "` from `" + member.guild.name + "`, Aka Banned").setDescription("```- If you think this was accidental, please contact the server Owner or staff\n- If you think this is a bot error contact my developer!```").setColor("#daff00"));
-                                            message.channel.send(` ${user.tag} has been **blep'd** / Kicked by ${message.author.tag}.`+"\nhttps://cdn.glitch.com/ecec1dd0-4cb5-43ec-8d0f-c30d2f009ea3%2Fluna_O_O.jpg");
+                                              user.send(new Discord.MessageEmbed().setTitle("You have been **kicked** by, `" + member.tag + "` from `" + member.guild.name + "`.").setDescription("```- If you think this was accidental, please contact the server Owner or staff\n- If you think this is a bot error contact my developer!```").setColor("#daff00"));
+                                      
+                                              message.reply(`Successfully kicked ${user.tag}`+"\nhttps://media1.tenor.com/images/df8bd53c0f3a4982863e4d49b78fe264/tenor.gif");
                                     }).catch(err => {
                                       message.reply('I was unable to kick this member');
                                       user.send("<@"+message.author.tag+"> has attempted to kick you");
                                       console.error(err);
                                     });         
                                     }
-                                    else message.reply('Operation canceled.').then(msg => {msg.delete({ timeout: 5000 })});
+                                    else message.reply('Operation canceled.').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
                             }).catch(() => {
-                                    message.reply('No reaction after 30 seconds, operation canceled').then(msg => {msg.delete({ timeout: 5000 })});
+                                    message.reply('No reaction after 30 seconds, operation canceled').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
                             });
-      } else {message.reply('That user isn\'t in this guild!').then(msg => {msg.delete({ timeout: 5000 })});}
-    } else {message.reply('You didn\'t mention the user to kick!').then(msg => {msg.delete({ timeout: 5000 })}); }
+      } else {message.reply('That user isn\'t in this guild!').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);}
+    } else {message.reply('You didn\'t mention the user to kick!').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error); }
   }  
   
   if (message.content.startsWith(eprefix + 'ban')) {
-    if (!message.guild.member(message.author).hasPermission('BAN_MEMBERS')) {return message.reply(':lock: **You** need `BAN_MEMBERS` Permissions to execute `ban`').then(msg => {msg.delete({ timeout: 5000 })})}
-        if (!message.guild.member(client.user).hasPermission('BAN_MEMBERS')) {return message.reply(':lock: **I** need `BAN_MEMBERS` Permissions to execute `ban`').then(msg => {msg.delete({ timeout: 5000 })})}
+    if (!message.guild.member(message.author).hasPermission('BAN_MEMBERS')) {return message.reply(':lock: **You** need `BAN_MEMBERS` Permissions to execute `ban`').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error)}
+        if (!message.guild.member(client.user).hasPermission('BAN_MEMBERS')) {return message.reply(':lock: **I** need `BAN_MEMBERS` Permissions to execute `ban`').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error)}
     const user = message.mentions.users.first();
     if (user) {
-      if (user==client.user.id) {return message.reply(`sad cat noises 3:\nbut if you really want me to leave use ${eprefix} leave-server`)};
+      if (user=="578319500475105341") {return message.reply(`sad cat noises 3:\nbut if you really want me to leave use ${eprefix} leave-server`)};
       const member = message.guild.member(user);
-      if(member.bot|user.bot) {return message.reply('I cannot kick a bot, you must do this manually.').then(msg => {msg.delete({ timeout: 5000 })});}
       if (member) {var yes = '👍'; var no = '👎';
         message.react(yes).then(r => {message.react(no);});
-            message.reply('You are about to ban '+user.tag+'\nConfirm with a thumb up or deny with a thumb down.').then(msg => {msg.delete({ timeout: 5000 })});
+            message.reply('You are about to ban '+user.tag+'\nConfirm with a thumb up or deny with a thumb down.').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
       message.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == yes || reaction.emoji.name == no),
                             { max: 1, time: 30000 }).then(collected => {
                                     if (collected.first().emoji.name == yes) {
+                                      
                                             member.ban('Optional reason that will display in the audit logs').then(() => {
                                               user.send(new Discord.MessageEmbed().setTitle("You have been `Banned` by, `" + member.tag + "` from `" + member.guild.name + "`.").setDescription("```- If you think this was accidental, please contact the server Owner or staff\n- If you think this is a bot error contact my developer!```").setColor("#daff00"));
-                                      message.reply(` ${user.tag} has been **beamed outta here** / Banned by ${message.author.tag}, Aka. Banned.`+"\nhttps://cdn.glitch.com/ecec1dd0-4cb5-43ec-8d0f-c30d2f009ea3%2Fluna_bite.gif"); 
+                                      message.reply(`Successfully kicked ${user.tag}`+"\nhttps://media1.tenor.com/images/d47f551f1d330f8aa1222d581587b671/tenor.gif");
+                                              
                                     }).catch(err => {
-                                      message.reply('I was unable to ban this member').then(msg => {msg.delete({ timeout: 5000 })});
+                                      message.reply('I was unable to kick this member').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
                                       user.send("<@"+message.author.tag+"> has attempted to ban you");
                                       console.error(err);
                                     });         
                                     }
-                                    else message.reply('Operation canceled.').then(msg => {msg.delete({ timeout: 5000 })});
+                                    else message.reply('Operation canceled.').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
                             }).catch(() => {
-                                    message.reply('No reaction after 30 seconds, operation canceled').then(msg => {msg.delete({ timeout: 5000 })});
+                                    message.reply('No reaction after 30 seconds, operation canceled').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);
                             });
-      } else {message.reply('That user isn\'t in this guild!').then(msg => {msg.delete({ timeout: 5000 })});}
-    } else {message.reply('You didn\'t mention the user to kick!').then(msg => {msg.delete({ timeout: 5000 })}); }
+      } else {message.reply('That user isn\'t in this guild!').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error);}
+    } else {message.reply('You didn\'t mention the user to kick!').then(msg => {msg.delete({ timeout: 5000 })}).catch(console.error); }
   }  
   
-  if(message.content.startsWith(eprefix+"debug")){
-    var args = message.content.split(" ").splice(2)
-  try{
-    return message.channel.send("Output: "+eval(args.join(" ")))
-  } catch(err){
-    return message.channel.send("Error:" + err)
-  }
-}
-  if(message.content.startsWith(eprefix+"dmrole")){
-    const margs = message.content.split(" ");
-if (!margs[2]) return message.reply('you need to provide a role').then(msg => {msg.delete({ timeout: 3000 })});
-if (!margs[3]) return message.reply('you need to provide a message').then(msg => {msg.delete({ timeout: 3000 })});
-var role = message.mentions.roles.first()
-message.guild.roles.cache.get(role.id).members.forEach(member => member.send(margs[3]))
-}
-  
-  /*--------------------------------------------------------------------*/
-  /*--[ Private messaging's ]--*/
-  /*--------------------------------------------------------------------*/
-if(message.content.startsWith(eprefix+"dm")){
-  message.delete();
-var margs = message.content.split(" ");
-var role = message.mentions.users.first();
-if (!margs[2]) return message.reply('you need to provide a user').then(msg => {msg.delete({ timeout: 3000 })});
-if (!margs[3]) return message.reply('you need to provide a message\nEx. `'+eprefix+' dm <@'+client.user.id+'> hello`').then(msg => {msg.delete({ timeout: 3000 })});;
-
-client.users.fetch(role.id).then((user) => {
-  var exampleEmbed = {
-	color: '#4040ff',
-	title: 'Private Message',
-	fields: [{name:'You have been Dm\'d by '+message.author.tag+'!', value: '`Reason: '+(margs[3] ? margs.splice(3).join(" ") : "Unspecified Reason")+'`\n'+message.url}],
-  };
-  user.send({ embed: exampleEmbed });
-  /*message.channel.send(`Dm sent to <@${user.id}>`).then(msg => {msg.delete({ timeout: 3000 })});*/
-});}
   
   
- if(message.content.startsWith(eprefix+"encourage")){
-  message.delete();
-var margs = message.content.split(" ");
-var role = message.mentions.users.first();
-if (!margs[2]) return message.reply('you need to provide a user').then(msg => {msg.delete({ timeout: 3000 })});
-//if (!margs[3]) return message.reply('you need to provide a message\nEx. `'+eprefix+' dm <@'+client.user.id+'> hello`').then(msg => {msg.delete({ timeout: 3000 })});
-client.users.fetch(role.id).then((user) => {
-  var exampleEmbed = {
-	color: '#cd7f32',
-	title: 'Private Message',
-	fields: [{name:'You have been Encouraged by '+message.author.tag+'!', value: '`Reason: '+(margs[3] ? margs.splice(3).join(" ") : "Unspecified Reason")+'`\n'+message.url}],
-  };user.send({ embed: exampleEmbed });
-  /*message.channel.send(`Dm sent to <@${user.id}>`).then(msg => {msg.delete({ timeout: 3000 })});*/
-});}
+    }
   
-  if(message.content.startsWith(eprefix+"warn")){
-    message.delete();
-var margs = message.content.split(" ");
-var member = message.mentions.users.first();
-if (!member) return message.reply('you need to mention a member to warn.').then(msg => {msg.delete({ timeout: 3000 })});; 
-if (!margs[2]) return message.reply('you need to mention a member to warn.').then(msg => {msg.delete({ timeout: 3000 })});;
-if (!margs[3]) return message.reply('you need to provide a message.').then(msg => {msg.delete({ timeout: 3000 })});;
-client.users.fetch(member.id).then((user) => {
-  const exampleEmbed = {
-	color: '#ff0000',
-	title: 'Warning',
-	fields: [{name:'You have been warned by '+message.author.tag+'!', value: '`Reason: '+(margs[3] ? margs.splice(3).join(" ") : "Unspecified Reason")+'`'}],
-};user.send({ embed: exampleEmbed });
-});}
-  
-  if(message.content.startsWith(eprefix+"mute")){
-var margs = message.content.split(" ");
-var member = message.mentions.users.first();
-if (!member) return message.reply('you need to mention a member to mute.').then(msg => {msg.delete({ timeout: 3000 })});; 
-if (!margs[2]) return message.reply('you need to mention a member to mute.').then(msg => {msg.delete({ timeout: 3000 })});;
-if (!margs[3]) return message.reply('you need to provide a message.').then(msg => {msg.delete({ timeout: 3000 })});;
-client.users.fetch(member.id).then((user) => {
-  const exampleEmbed = {
-	color: '#ff0000',
-	title: 'Muted',
-	fields: [
-		{name:'You have been muted by '+message.author.tag+'!', value: '`Reason: '+margs[3]+'`'}],
-};
-    user.send({ embed: exampleEmbed });
-  if (user === message.guild.ownerID){return message.reply("You Can't mute the owner of this server ").then(msg => {msg.delete({ timeout: 5000 })});}
-  message.channel.updateOverwrite(user, { SEND_MESSAGES: false });
-});
-}
-  if(message.content.startsWith(eprefix+"unmute")){
-var margs = message.content.split(" ");
-var member = message.mentions.users.first();
-if (!member) return message.reply('You need to mention a member to unmute.').then(msg => {msg.delete({ timeout: 3000 })});; 
-if (!margs[2]) return message.reply('You need to mention a member to unmute.').then(msg => {msg.delete({ timeout: 3000 })});;
-if (!margs[3]) return message.reply('You need to provide a message.').then(msg => {msg.delete({ timeout: 3000 })});;
-client.users.fetch(member.id).then((user) => {
-  const exampleEmbed = {
-	color: '#00e600',
-	title: 'Unmuted',
-	fields: [
-		{name:'You have been unmuted by '+message.author.tag+'!', value: '`Reason: '+margs[3]+'`'}],
-};
-    user.send({ embed: exampleEmbed });
-  if (user === message.guild.ownerID){return message.reply("You Can't unmute the owner of this server ").then(msg => {msg.delete({ timeout: 5000 })});}
-  message.channel.updateOverwrite(user, { SEND_MESSAGES: true });
-});
-}
-  
-  if (message.content.startsWith(eprefix+"set")) {
-  if (message.content==(eprefix+"set-logs")) {
-     if (message.channel.type !== "text") {return message.channel.send('Please do this in a server with `'+client.user.username+'`')}
-      message.channel.send("Logs channel changed");
-      server.logschannel[message.guild.id]=message.channel.id;
-      fs.writeFileSync("servers.json", JSON.stringify(server, null, 2));
-    } else
-    if (message.content==(eprefix+"set-commands")) {
-     if (message.channel.type !== "text") {return message.channel.send('Please do this in a server with `'+client.user.username+'`')}
-      message.channel.send("Commands channel channel changed");
-      server.commandschannel[message.guild.id]=message.channel.id;
-      fs.writeFileSync("servers.json", JSON.stringify(server, null, 2));
-    }else 
-    if (message.content==(eprefix+"set-welcome")) {
-     if (message.channel.type !== "text") {return message.channel.send('Please do this in a server with `'+client.user.username+'`')}
-      message.channel.send("Welcome channel changed");
-      server.greetingschannel[message.guild.id]=message.channel.id;
-      fs.writeFileSync("servers.json", JSON.stringify(server, null, 2));
-    }else { message.channel.send("Options [**logs**, **commands**, **welcome**]\n Ex. `"+eprefix+"set-welcome`");}
-  }
-  
-  if(message.content.startsWith(eprefix+"shorten")){
-    var margs = message.content.split(" ");
-if (!margs[2]) return message.reply('You need to provide a link Ex. `'+eprefix+'shorten '+homepage+'`').then(msg => {msg.delete({ timeout: 8000 })});;
-//if (!margs[3]) return message.reply('you need to provide a message')
-//const role = message.mentions.roles.first()
-    await tinyurl.shorten(margs[2], function(res, err) {
-  if (err)
-    message.channel.send(err).then(msg => {msg.delete({ timeout: 5000 })});
-    message.channel.send(res);
-});
-}
-  
-  if (message.content===(eprefix+'nuke')) {
-     var current_pos
-     current_pos = message.channel.position
-    if(!message.guild.me.hasPermission("MANAGE_CHANNELS")){return message.channel.send("Missing permission `Manage Channels`")}
-     message.channel.send('please type yes to nuke the channel and no to cancel the operation `[yes]`').then(() => {
-	var filter = m => message.author.id === m.author.id;
-	message.channel.awaitMessages(filter, { time: 30000, max: 1, errors: ['time'] })
-		.then(messages => {
-			if (messages.first().content==("yes")) {  
-         setTimeout(async () => {
-    await message.channel.send("boop");
-    let newch = await message.channel.clone();
-    await message.channel.delete();
-    await newch.setPosition(current_pos)
-}, 900);
-    } else if (messages.first().content==("no")) {
-return message.reply("Operation canceled.").then(msg => {msg.delete({ timeout: 8000 })});
-    }else {message.channel.send("Just type **on** or **off** after `"+eprefix+"filter`.").then(msg => {msg.delete({ timeout: 10000 })});}
-  }).catch(() => {
-			message.channel.send('You did not enter any input!').then(msg => {msg.delete({ timeout: 5000 })});;
-		});
-});
-     
-  
-
-   }
-
-    }/* /\ End of "Admin & Staff Commands" /\ */
-  
-  /* /\ End of "All Commands" /\ */
   
 });
 
