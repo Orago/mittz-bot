@@ -1,11 +1,9 @@
-
 <img src="https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png" alt="Mittenz Logo" height=250 width=250/>
 
 [![](https://img.shields.io/github/license/orago/mittz-bot.svg)](https://github.com/orago/mittz-bot/blob/master/LICENSE)
 ![](https://img.shields.io/github/commits-since/orago/mittz-bot/master.svg)
 
-
-## Hello!
+## Mittz Bot!
 
 Mittz bot was created with the intentions of supporting My [Discord Server](https://discord.gg/zzthRpu), but it had come to my attention that it can amount up to way more than just a private use bot
 

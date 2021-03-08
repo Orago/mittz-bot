@@ -1,48 +1,111 @@
 {
-  "swears":["poo", "innapropriate","fun"],
-  "background": {
-
+  "discord": {
+    "owner": [],
+    "admin": [],
+    "user": {
+      "193127888646701056": {
+        "coins": 50,
+        "background": "https://cdn.glitch.com/0322d62f-81b5-4f06-9b33-557687636cec%2Fvapormountainphotolight2.png",
+        "description": "193127888646701056",
+        "color": "#000000",
+        "badges": [],
+        "creation_date": "1/30/2021 13:57:1 PM"
+      },
+      "564803537469571093": {
+        "coins": 50,
+        "background": "https://convertingcolors.com/plain-2C2F33.svg",
+        "description": "564803537469571093",
+        "color": "#000000",
+        "badges": [],
+        "creation_date": "2/7/2021 16:38:15 PM"
+      }
+    },
+    "guild": {
+      "396838715894530068": {
+        "prefix": ";",
+        "filter": "off",
+        "votekick": 5,
+        "channel": {
+          "commands": "749274618610843679",
+          "greetings": "741450909355343984",
+          "logs": "741527294555848766"
+        }
+      }
+    }
   },
-  "description": {
-
-  },
-  "color": {
-
-  },
-  "prefix": {
-
-  },
-  "badges": {
-
-  },
-  "owo": {
-
-  },
-  "uwu": {
-
-  },
-  "coins": {
-
-  },
-  "xp": {
-
-  },
-  "filter": {
-
-  },
-  "logschannel": {
-
-  },
-  "greetingschannel": {
-
-  },
-  "commandschannel": {
-
-  },
-  "servers": [
-
-  ],
-  "profiles": [
-
-  ]
+  "nertivia": {
+    "owner": [
+      "6642526214797922304",
+      "763085785093499319"
+    ],
+    "admin": [
+      "6774398372817145856"
+    ],
+    "user": {
+      "6767825092106784768": {
+        "coins": 50,
+        "background": "https://convertingcolors.com/plain-2C2F33.svg",
+        "description": "6767825092106784768",
+        "color": "#000000",
+        "badges": [],
+        "creationDate": "3/5/2021 -4:36:58 AM"
+      },
+      "6642526214797922304": {
+        "coins": 120,
+        "background": "https://convertingcolors.com/plain-2C2F33.svg",
+        "description": "6642526214797922304",
+        "color": "#000000",
+        "badges": [],
+        "creationDate": "3/5/2021 -3:33:15 AM"
+      },
+      "6723584360844365824": {
+        "coins": 49.98,
+        "background": "https://convertingcolors.com/plain-2C2F33.svg",
+        "description": "6723584360844365824",
+        "color": "#000000",
+        "badges": [],
+        "creationDate": "3/5/2021 12:38:16 broken??"
+      },
+      "6773037623054176256": {
+        "coins": 54.01,
+        "background": "https://convertingcolors.com/plain-2C2F33.svg",
+        "description": "6773037623054176256",
+        "color": "#000000",
+        "badges": [],
+        "creationDate": "3/5/2021 12:38:16 broken??"
+      },
+      "6773266068422004736": {
+        "coins": 50,
+        "background": "https://convertingcolors.com/plain-2C2F33.svg",
+        "description": "6642526214797922304",
+        "color": "#000000",
+        "badges": [],
+        "creationDate": "3/6/2021 -3:0:33 AM"
+      },
+      "6774398372817145856": {
+        "coins": 50,
+        "background": "https://convertingcolors.com/plain-2C2F33.svg",
+        "description": "6774398372817145856",
+        "color": "#000000",
+        "badges": [],
+        "creationDate": "3/7/2021 15:26:50 PM"
+      },
+      "6773367602019307520": {
+        "coins": 50,
+        "background": "https://convertingcolors.com/plain-2C2F33.svg",
+        "description": "6642526214797922304",
+        "color": "#000000",
+        "badges": [],
+        "creationDate": "3/7/2021 15:35:19 PM"
+      }
+    },
+    "guild": {
+      "6722617023240605697": {
+        "prefix": "!v!",
+        "filter": "off",
+        "votekick": 0,
+        "channel": {}
+      }
+    }
+  }
 }
