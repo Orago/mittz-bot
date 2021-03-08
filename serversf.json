@@ -1,84 +1,418 @@
-{
-  "swears":["fuck", "shit", "nigga","nigger","ass","bitch","cunt","porn","cock","penis"],
-  "background": {
-    "193127888646701056": "https://i.pinimg.com/originals/ff/11/9e/ff119ea37f6b5ff448e8cb72e96007e0.jpg",
-    "539344899842244608": "https://convertingcolors.com/plain-2C2F33.svg",
-    "660492053322530827": "https://convertingcolors.com/plain-2C2F33.svg",
-    "123413327094218753": "https://convertingcolors.com/plain-2C2F33.svg"
-  },
-  "description": {
-    "193127888646701056": "No Description Set",
-    "539344899842244608": "No Description Set",
-    "660492053322530827": "No Description Set",
-    "123413327094218753": "No Description Set"
-  },
-  "color": {
-    "193127888646701056": "#ffffff",
-    "539344899842244608": "#ffffff",
-    "660492053322530827": "#ffffff",
-    "123413327094218753": "#ffffff"
-  },
-  "prefix": {
-    "396838715894530068": "!v!",
-    "744460286819565598": "/"
-  },
-  "badges": {
-    "193127888646701056": [],
-    "539344899842244608": [],
-    "660492053322530827": [],
-    "123413327094218753": []
-  },
-  "owo": {
-    "396838715894530068": 3,
-    "193127888646701056": 6,
-    "744460286819565598": 3,
-    "539344899842244608": 0,
-    "660492053322530827": 0,
-    "123413327094218753": 0
-  },
-  "uwu": {
-    "396838715894530068": 6,
-    "193127888646701056": 6,
-    "744460286819565598": 2,
-    "539344899842244608": 0,
-    "660492053322530827": 0,
-    "123413327094218753": 2
-  },
-  "coins": {
-    "193127888646701056": 5151,
-    "539344899842244608": 0,
-    "660492053322530827": 0,
-    "123413327094218753": 0
-  },
-  "xp": {
-    "193127888646701056": 1000,
-    "539344899842244608": 0,
-    "660492053322530827": 0,
-    "123413327094218753": 0
-  },
-  "filter": {
-    "396838715894530068": "off"
-  },
-  "logschannel": {
-    "396838715894530068": "741527294555848766",
-    "744460286819565598": "744462686867292171"
-  },
-  "greetingschannel": {
-    "396838715894530068": "741450909355343984",
-    "744460286819565598": "744462680785682544"
-  },
-  "commandschannel": {
-    "396838715894530068": "749274618610843679",
-    "731324172940083201": "731324173124763706"
-  },
-  "servers": [
-    "396838715894530068",
-    "744460286819565598"
-  ],
-  "profiles": [
-    "193127888646701056",
-    "539344899842244608",
-    "660492053322530827",
-    "123413327094218753"
-  ]
+<link href="/assets/css/profilecard.css" rel="stylesheet">
+<input id="slider" class="customSlider" type="checkbox">
+<label for="slider"></label>
+<div class="wrapper">
+	<div class="top-icons">
+		<i onclick="window.location.href = '/team/';" class="fas fa-long-arrow-alt-left"></i>
+		<i class="far fa-heart"></i>
+	</div>
+	
+	<div class="profile">
+		<img src="https://cdn.glitch.com/65f81ac1-5972-4a88-a61a-62585d79cfc0%2Fboxie-2048px.png?v=1594354728664" class="thumbnail">
+		<div class="check"><i class="fas fa-check"></i></div>
+		<h3 class="name">Orago</h3>
+		<p class="title">Code Dev & Pixel Artist</p>
+		<p class="description">Some neat little bits of sample text that needs to be replaced.</p>
+		<button type="button" class="btn">Website</button>
+	</div>
+	
+  <div class="social-icons">
+		<div class="icon">
+			<li><a href="#"><i class="fa fa-instagram"></i></a></li>
+			<h4>12.8k</h4>
+			<p>Followers</p>
+    </div>
+		
+		<div class="icon">
+			<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+			<h4>12.8k</h4>
+			<p>Followers</p>
+		</div>
+		
+		<div class="icon">
+			<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+			<h4>12.8k</h4>
+			<p>Followers</p>
+		</div>
+	</div>
+</div>
+
+<div class="concept">Mittenz Team by 
+	<a href="/" target="_blank">
+		<i class="fa fa-twitter"></i> Orago
+	</a>
+</div>
+
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+
+@import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url("https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css");
+* {
+	 margin: 0;
+	 padding: 0;
+	 box-sizing: border-box;
 }
+ body {
+	 width: 100%;
+	 height: 100vh;
+	 display: flex;
+	 position: relative;
+	 background: #eeeeec;
+   background-color: #1d212b;
+	 align-items: center;
+	 flex-direction: column;
+	 justify-content: center;
+	 font-family: 'Open Sans', sans-serif;
+	 font-size: 100%;
+}
+
+* {
+	 box-sizing: border-box;
+}
+ html, body {
+	 margin: 0 auto;
+	 height: 100%;
+}
+ div {
+	 position: relative;
+	 text-align: center;
+	 color: #252b37;
+	 animation: textColor 10s ease infinite;
+}
+ div:after {
+	 position: absolute;
+	 content: "";
+	 top: 5vw;
+	 left: 0;
+	 right: 0;
+	 z-index: -1;
+	 height: 100%;
+	 width: 100%;
+	 margin: 0 auto;
+	 transform: scale(0.75);
+	 -webkit-filter: blur(5vw);
+	 -moz-filter: blur(5vw);
+	 -ms-filter: blur(5vw);
+	 filter: blur(5vw);
+	 background: linear-gradient(270deg, #0fffc1, #7e0fff);
+	 background-size: 200% 200%;
+	 animation: animateGlow 10s ease infinite;
+}
+ @keyframes animateGlow {
+	 0% {
+		 background-position: 0% 50%;
+	}
+	 50% {
+		 background-position: 100% 50%;
+	}
+	 100% {
+		 background-position: 0% 50%;
+	}
+}
+ @keyframes textColor {
+	 0% {
+		 color: #7e0fff;
+	}
+	 50% {
+		 color: #0fffc1;
+	}
+	 100% {
+		 color: #7e0fff;
+	}
+}
+ 
+
+.social-icons {
+  padding: 0;
+  list-style: none;
+  margin: 1em;
+}
+
+.social-icons li {
+  display: inline-block;
+  margin: 0.15em;
+  position: relative;
+  font-size: 1em;
+}
+
+.social-icons i {
+  color: #fff;
+  position: absolute;
+  top: 0.95em;
+  left: 0.96em;
+  transition: all 265ms ease-out;
+  animation: textColor 10s ease infinite;
+}
+
+.social-icons a {
+  display: inline-block;
+}
+
+.social-icons a:before {
+  transform: scale(1);
+  -ms-transform: scale(1);
+  -webkit-transform: scale(1);
+  content: " ";
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
+  display: block;
+  background: linear-gradient(45deg, #5228BD, #619BF2);
+  transition: all 265ms ease-out;
+  
+}
+
+.social-icons a:hover:before {
+  transform: scale(0);
+  transition: all 265ms ease-in;
+}
+
+.social-icons a:hover i {
+  transform: scale(2.2);
+  -ms-transform: scale(2.2);
+  -webkit-transform: scale(2.2);
+  color: #619BF2;
+  background: -webkit-linear-gradient(45deg, #5228BD, #619BF2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 265ms ease-in;
+}
+
+
+
+
+
+ .customSlider {
+	 opacity: 0;
+	 display: none;
+}
+ .customSlider + label {
+	 position: relative;
+	 top: 35px;
+	 left: 15px;
+	 cursor: pointer;
+}
+ .customSlider + label:before, .customSlider + label:after {
+	 background: #fff;
+	 position: absolute;
+	 content: '';
+}
+ .customSlider + label:before {
+	 top: -90px;
+	 left: -60px;
+	 width: 80px;
+	 height: 40px;
+	 background: #ccc;
+	 border-radius: 20px;
+	 transition: background 0.75s;
+}
+ .customSlider + label:after {
+	 height: 34px;
+	 width: 34px;
+	 top: -87px;
+	 left: -55px;
+	 border-radius: 50%;
+	 transition: all 0.5s;
+}
+ .customSlider:checked + label:after {
+   background: #080911;
+	 height: 34px;
+	 width: 34px;
+	 top: -87px;
+	 left: -19px;
+	 border-radius: 50%;
+}
+ .customSlider:checked ~ .wrapper {
+	 color: #fff;
+	 transition: background 0.6s ease;
+	 background: #31394d;
+}
+ .customSlider:checked ~ .wrapper .top-icons i {
+	 color: #fff;
+}
+ .customSlider:checked ~ .wrapper .profile .name {
+	 color: #fdfeff;
+}
+ .customSlider:checked ~ .wrapper .profile .title {
+	 color: #7c8097;
+}
+
+ .customSlider:checked ~ .wrapper .profile .description {
+	 color: #fdfeff;
+}
+ .customSlider:checked ~ .wrapper .icon h4 {
+	 color: #fff;
+}
+ .customSlider:checked ~ .wrapper .icon p {
+	 color: #666b7d;
+}
+ .wrapper {
+	 width: 320px;
+	 height: 540px;
+	 background: #fdfeff;
+	 transition: background 0.6s ease;
+	 border-radius: 10px;
+	 padding: 20px 20px 20px 20px;
+	 box-shadow: 0 8px 40px rgba(0, 0, 0, .2);
+}
+ .wrapper .top-icons i {
+	 color: #080911;
+
+}
+  .wrapper .top-icons i:hover { 
+   color: #619BF2;
+  background: -webkit-linear-gradient(45deg, #5228BD, #619BF2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 265ms ease-in;
+}
+ .wrapper .top-icons i:nth-of-type(1) {
+	 float: left;
+}
+ .wrapper .top-icons i:nth-of-type(2) {
+	 float: right;
+}
+ .wrapper .top-icons i:nth-of-type(3) {
+	 float: right;
+	 padding-right: 0.8em;
+}
+ .wrapper .profile {
+	 margin-top: 2.2em;
+	 position: relative;
+}
+ .wrapper .profile:after {
+	 width: 100%;
+	 height: 1px;
+	 content: ' ';
+	 display: block;
+	 margin-top: 1.3em;
+	 background: #e9eff6;
+}
+ .wrapper .profile .check {
+	 
+	 right: 5em;
+	 bottom: 12.7em;
+}
+ .wrapper .profile .check i {
+   position: absolute;
+	 color: #fff;
+	 width: 20px;
+	 height: 20px;
+   top: 145px;
+  left: 255px;
+	 font-size: 12px;
+	 line-height: 20px;
+	 text-align: center;
+	 border-radius: 100%;
+	 background: linear-gradient(to bottom right, #5228BD, #619BF2);
+   animation: textColor 10s ease infinite;
+}
+ .wrapper .profile .thumbnail {
+	 width: 124px;
+	 height: 124px;
+	 display: flex;
+	 margin-left: auto;
+	 margin-right: auto;
+	 margin-bottom: 1.5em;
+	 border-radius: 100%;
+	 box-shadow: 0 13px 26px rgba(0, 0, 0, .2), 0 3px 6px rgba(0, 0, 0, .2);
+}
+ .wrapper .profile .name {
+	 color: #2d354a;
+	 font-size: 24px;
+	 font-weight: 600;
+	 text-align: center;
+   
+}
+ .wrapper .profile .title {
+	 color: #7c8097;
+	 font-size: 0.75em;
+	 font-weight: 300;
+	 text-align: center;
+	 padding-top: 0.5em;
+	 padding-bottom: 0.7em;
+	 letter-spacing: 1.5px;
+	 text-transform: uppercase;
+}
+ .wrapper .profile .description {
+	 color: #080911;
+	 font-size: 14px;
+	 font-weight: 300;
+	 text-align: center;
+	 margin-bottom: 1.3em;
+}
+ .wrapper .profile .btn {
+	 color: #fff;
+	 width: 130px;
+	 height: 42px;
+	 outline: none;
+	 border: none;
+	 display: block;
+	 cursor: pointer;
+	 font-weight: 300;
+	 margin-left: auto;
+	 margin-right: auto;
+	 border-radius: 70px;
+	 box-shadow: 0 13px 26px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .16);
+	 background: linear-gradient(to bottom right, #5228BD, #619BF2);
+   animation: textColor 10s ease infinite;
+}
+ .wrapper .social-icons {
+	 display: flex;
+	 margin-top: 1.2em;
+	 justify-content: space-between;
+   
+}
+ .wrapper .social-icons .icon {
+	 display: flex;
+	 align-items: center;
+	 flex-direction: column;
+   
+   
+}
+ .social-icons .icon h4 {
+	 color: #080911;
+	 font-size: 1em;
+	 margin-top: 1.3em;
+	 margin-bottom: 0.2em;
+}
+ .wrapper .social-icons .icon p {
+	 color: #666b7d;
+	 font-size: 12px;
+   
+}
+ .concept {
+	 position: absolute;
+	 bottom: 25px;
+	 color: #aab0c4;
+	 font-size: 0.9em;
+	 font-weight: 400;
+}
+ .concept a {
+	 color: rgba(172, 25, 102, 1);
+	 text-decoration: none;
+}
+ 

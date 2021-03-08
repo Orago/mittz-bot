@@ -1,16 +1,35 @@
 {
-    "prefix": "!v!",
+    "prefix": ">",
     "home_prefix": "m$",
     "kamiko_prefix": "k!",
     "default_prefix": "!v!",
     "api": "YOUTUBE API KEY",
-    "creator_id": "193127888646701056",
-    "creator_name": "Orago",
-    "color": "#cb3837",
+  
+    "discord":{
+      "creatorID": "193127888646701056",
+      "admins":[]
+    },
+    "nertivia":{
+      "creatorID": "6642526214797922304",
+      "owner":["6642526214797922304","763085785093499319"],
+      "admin":[]
+    },
+    
+    "creatorName": "Orago",
+    "color": "#27253a",
+    "oldcolor":"#cb3837",
     "mainbot_ver": "V1.1",
     "kamiko_ver": "V1.01",
-    "admins": ["ADMIN ID's", "Supports multiple"],
     "defaultvolume": "Default Playback Volume",
     "homepage": "https://mittenscat.herokuapp.com",
-    "support": "https://discord.gg/zzthRpu"
+    "support": "https://discord.gg/zzthRpu",
+    "swears": [
+    "fuck",
+    "ass",
+    "shit",
+    "dick",
+    "cunt",
+    "pussy",
+    "nigger"
+  ]
 } 

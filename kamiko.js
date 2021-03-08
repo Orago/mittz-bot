@@ -12,7 +12,6 @@ const guildInvites = new Map();
 const ytdl = require('ytdl-core');
 const fetch = require('node-fetch');
 
-
 /* FileSync */
 let server = JSON.parse(fs.readFileSync(__dirname+"/servers.json"));
 let botver = config.mainbot_ver;
@@ -42,13 +41,64 @@ process.on('unhandledRejection', error => {
 });
 
 
-
+  var nsfw = {
+    "nl neko":{"tag":"neko","type":"nl"},
+    "nl nekog":{"tag":"nsfw_neko_gif","type":"nl"},
+    "nl eneko":{"tag":"eron","type":"nl"},
+    "nl yuri":{"tag":"yuri","type":"nl"},
+    "nl gecg":{"tag":"gecg","type":"nl"},
+    "nl kuni":{"tag":"kuni","type":"nl"},
+    "nl ngif":{"tag":"ngif","type":"nl"},
+    "nl femdom":{"tag":"femdom","type":"nl"},
+    "nl kemonomimi":{"tag":"kemonomimi","type":"nl"},
+    "nl lewdkemo":{"tag":"lewdkemo","type":"nl"},
+    "nl erokemo":{"tag":"erokemo","type":"nl"},
+    "nl eroyuri":{"tag":"eroyuri","type":"nl"},
+    "nl tits":{"tag":"tits","type":"nl"},
+    "nl pussy":{"tag":"pussy","type":"nl"},
+    "nl lewd":{"tag":"lewd","type":"nl"},
+    "nl solo":{"tag":"solo","type":"nl"},
+    "nl solog":{"tag":"solog","type":"nl"},
+    "nl ero":{"tag":"ero","type":"nl"},
+    "nl waifu":{"tag":"waifu","type":"nl"},
+    "nl gasm":{"tag":"gasm","type":"nl"},
+    "nl pwankg":{"tag":"pwankg","type":"nl"},
+    "nl boobs":{"tag":"boobs","type":"nl"},
+    "nl trap":{"tag":"trap","type":"nl"},
+    "nl bj":{"tag":"bj","type":"nl"},
+    "nl blowjob":{"tag":"blowjob","type":"nl"},
+    "nl cum":{"tag":"cum_jpg","type":"nl"},
+    "nl cumg":{"tag":"cum","type":"nl"},
+    "nl anal":{"tag":"anal","type":"nl"},
+    "neko":{"tag":"neko","type":"nb"},
+    "h neko":{"tag":"hneko","type":"nb"},
+    "thigh":{"tag":"thigh","type":"nb"},
+    "h thigh":{"tag":"hthigh","type":"nb"},
+    "ass":{"tag":"ass","type":"nb"},
+    "h ass":{"tag":"hass","type":"nb"},
+    "pussy":{"tag":"pussy","type":"nb"},
+    "pussy g":{"tag":"pgif","type":"nb"},
+    "anal":{"tag":"anal","type":"nb"},
+    "h anal":{"tag":"hanal","type":"nb"},
+    "h kit":{"tag":"hkitsune","type":"nb"},
+    "h midriff":{"tag":"hmidriff","type":"nb"},
+    "kemonomimi":{"tag":"kemonomimi","type":"nb"},
+    "paizuri":{"tag":"paizuri","type":"nb"},
+    "kanna":{"tag":"kanna","type":"nb"},
+    "hentai":{"tag":"hentai","type":"nb"},
+    "tentacle":{"tag":"tentacle","type":"nb"},
+    "coffee":{"tag":"coffee","type":"nb"},
+    "food":{"tag":"food","type":"nb"},
+    "gonewild":{"tag":"gonewild","type":"nb"},
+    "4k":{"tag":"4k","type":"nb"},
+    "4k":{"tag":"4k","type":"e621"}
+  }
 
 setInterval(() => {
   http.get(`http://mittz-bot.glitch.me/`);
 }, 280000);
 
-client.on("message", (message) => {
+client.on("message", async (message) => {
   if (message.author.bot) return;
  
   
@@ -67,7 +117,13 @@ if (message.content === eprefix+'invite') {
   }
 
   if (message.content === eprefix+'cat') {
-    let width=(Math.random()*1800+200)|0;let height=(Math.random()*1800+200)|0;message.channel.send(new Discord.MessageEmbed().setColor("ORANGE").setDescription("**Meow!**").setImage("http://placekitten.com/"+width+"/"+height+"/"));
+    let width=(Math.random()*1800+200)|0;
+    let height=(Math.random()*1800+200)|0;
+    message.channel.send(
+      new Discord.MessageEmbed()
+        .setColor("ORANGE")
+        .setDescription("**Meow!**")
+        .setImage("http://placekitten.com/"+width+"/"+height+"/"));
   }
   //if(message.guild.id==728008557244448788&&(message.channel.id!=728025726556569631)){ return;}
 
@@ -123,6 +179,7 @@ if (message.content === eprefix+'invite') {
       message.channel.send(embed);
   }
   if (message.content==(eprefix+"nsfw")) {
+    
 if(!message.channel.nsfw){return message.channel.send("You can\'t do this here..")}
      if (message.channel.type !== "text") {return message.channel.send('Please do this in a server with `'+client.user.username+'`')}
     let times = 0;let add = 0;
@@ -141,117 +198,41 @@ if(!message.channel.nsfw){return message.channel.send("You can\'t do this here..
     if (!messages2.first().content) return message.reply('You haven\'t given an amount of messages which should be deleted!'); 
     if (isNaN(messages2.first().content)) return message.reply('The amount parameter isn\'t a number!'); 
     if (messages2.first().content>max) return message.reply('Please do this less than '+max+' times'); 
+    var result = "";
+      get_url();
+async function get_url(){
 while (times < messages2.first().content) {
-  times++;
+  
   add += times;
-  if (messages1.first().content === 'nl neko') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/neko').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl nekog') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/nsfw_neko_gif').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl eneko') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/eron').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl yuri') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/yuri').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl gecg') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/gecg').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl kuni') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/kuni').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl ngif') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/ngif').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl femdom') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/femdom').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl kemonomimi') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/kemonomimi').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl lewdkemo') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/lewdkemo').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl erokemo') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/erokemo').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl eroyuri') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/eroyuri').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl tits') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/tits').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl pussy') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/pussy').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl lewd') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/lewd').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl solo') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/solo').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl solog') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/solog').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl ero') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/ero').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl waifu') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/waifu').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl gasm') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/gasm').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl pwankg') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/pwankg').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl boobs') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/boobs').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl trap') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/trap').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl bj') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/bj').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl blowjob') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/blowjob').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl cumg') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/cum').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl cum') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/cum_jpg').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'nl anal') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/anal').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'neko') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=neko').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (messages1.first().content === 'h neko') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hneko').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'h thigh') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hthigh').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'thigh') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=thigh').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'ass') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=ass').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'h ass') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hass').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'pussy') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=pussy').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'anal') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=anal').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'h anal') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hanal').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'pgif') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=pgif').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'h kit') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hkitsune').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'h midriff') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hmidriff').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'kemonomimi') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=kemonomimi').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'paizuri') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=paizuri').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'kanna') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=kanna').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'hentai') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hentai').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'tentacle') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=tentacle').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'coffee') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=coffee').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'food') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=food').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === 'gonewild') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=gonewild').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (messages1.first().content === '4k') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=4k').then(res => res.json());link.then(json => message.channel.send(json.message))}else
+  if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!");}
+  var options = {};
+
   
-  return message.channel.send("There is no **nsfw** with this tag. Current tags are `hl neko`,`nl nekog`,`nl eneko`,`nl yuri`,`nl gecg`,`nl kuni`,`nl ngif`,`nl femdom`,`nl kemonomimi`,`nl lewdkemo`,`nl erokemo`,`nl eroyuri`,`nl tits`,`nl pussy`,`nl lewd`,`nl solo`,`nl solog`,`nl ero`,`nl waifu`,`nl gasm`,`nl pwankg`,`nl boobs`,`nl trap`,`nl bj`,`nl blowjob`,`nl cum`,`nl cumg`,`nl anal`,`neko`,`h neko`,`h thigh`,`thigh`,`ass`,`h ass`,`anal`,`h anal`,`pgif`,`h kit`,`h midriff`,`kemonomimi`,`paizuri`,`kanna`,`hentai`,`tentacle`,`coffee`,`food`,`gonewild`,`4k`.");
-  
-  if (message.content.startsWith(eprefix+"st")) {
-    return
+  if (Object.keys(nsfw).includes(messages1.first().content)){
+    options.tag=nsfw[messages1.first().content].tag;
+    options.type=nsfw[messages1.first().content].type;
+    console.log(options.tag+": "+options.type)
+    switch (options.type) {
+    case "nl":options.url = 'https://nekos.life/api/v2/img/';options.method="url";break;
+    case "nb":options.url = 'https://nekobot.xyz/api/image?type=';options.method="message";break;
+    
+    }
+    options.link = options.url+options.tag;
+    var link = await fetch(`${options.url}${options.tag}`).then(res => res.json()).then(json => json[options.method]);
+    result+=link+" ";console.log(result)
   }
+  else {result = "add laterrr"}
   
-}});})// times loop
-});})
+  times++;
+}message.channel.send(result)
+}
+  });
+    })// times loop
+});
+    })
     
     ;};
-  
-if (message.channel.type == "text") {
-  if (message.content === eprefix+'nsfw nl neko') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/neko').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl nng') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/nsfw_neko_gif').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl yuri') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/yuri').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl gecg') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/gecg').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl kuni') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/kuni').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl ngif') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/ngif').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl femdom') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/femdom').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl eroyuri') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/eroyuri').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl tits') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/tits').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl pussy') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/pussy').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl lewd') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/lewd').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl solo') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/solo').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl solog') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/solog').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl ero') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/ero').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl waifu') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/waifu').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl gasm') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/gasm').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl pwankg') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/pwankg').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl boobs') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/boobs').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl trap') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/trap').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl bj') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/bj').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl blowjob') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/blowjob').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl cumg') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/cum').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl cum') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/cum_jpg').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw nl anal') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekos.life/api/v2/img/anal').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw neko') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=neko').then(res => res.json());link.then(json => message.channel.send(json.url))}else
-  if (message.content === eprefix+'nsfw h neko') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hneko').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw h-thigh') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hthigh').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw thigh') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=thigh').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw ass') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=ass').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw h ass') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hass').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw anal') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=anal').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw h anal') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hanal').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw pgif') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=pgif').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw h kit') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hkitsune').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw h midriff') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hmidriff').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw kemonomimi') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=kemonomimi').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw paizuri') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=paizuri').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw kanna') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=kanna').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw hentai') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=hentai').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw tentacle') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=tentacle').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw coffee') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=coffee').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw food') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=food').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw gonewild') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=gonewild').then(res => res.json());link.then(json => message.channel.send(json.message))}else
-  if (message.content === eprefix+'nsfw 4k') {if(!message.channel.nsfw){ message.channel.send("This command can only be used in channels marked nsfw, that means you need to be 18+ to use this!"); return; }var link = fetch('https://nekobot.xyz/api/image?type=4k').then(res => res.json());link.then(json => message.channel.send(json.message))}
-  }
- if (message.content==(eprefix + "commandlist")||message.content==("!v! commandlist")) {
+ if (message.content==(eprefix + "commandlist")||message.content==("k! commandlist")) {
     const embed = new Discord.MessageEmbed()
         .setThumbnail(client.user.avatarURL)
         .setTitle('__'+client.user.username+' Commands__')
@@ -329,4 +310,4 @@ client.on("ready", async () => {
   //client.user.setUsername("Mittz");
   client.user.setPresence({ activity: { name: `${eprefix} help | ${client.guilds.cache.size} guilds`,type: "PLAYING",url:"https://www.youtube.com/watch?v=P4i-VYcrEuc"}, status: 'idle'});
 });
-client.login(process.env.kamiko_token);
+client.login(process.env.discordKamiko);
